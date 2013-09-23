@@ -1,0 +1,30 @@
+A,a,l
+E,e,l
+I,i,l
+O,o,l
+U,u,l
+Space, ,l
+B,b,l
+C,c,l
+D,d,l
+F,f,l
+G,g,l
+Say it,x,a
+H,h,l
+J,j,l
+K,k,l
+L,l,l
+M,m,l
+Add it,x,a
+N,n,l
+P,p,l
+Q,q,l
+R,r,l
+S,s,l
+1/2,x,a
+T,t,l
+V,v,l
+W,w,l
+X,x,l
+Y,y,l
+Z,z,l

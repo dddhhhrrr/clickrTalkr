@@ -1,0 +1,18 @@
+all: openAAC
+
+OPENVGLIBDIR=/openvg
+
+openAAC: main.o model.o view.o controller.o 
+	g++ -o openAAC  model.o view.o controller.o main.o
+	
+main.o: main.cpp
+	g++ -c main.cpp
+	
+model.o: model.cpp
+	g++ -c model.cpp
+	
+view.o: view.cpp $(OPENVGLIBDIR)/libshapes.o $(OPENVGLIBDIR)/oglinit.o
+	g++ -Wall -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I.. -c view.cpp $(OPENVGLIBDIR)/libshapes.o $(OPENVGLIBDIR)/oglinit.o -L/opt/vc/lib -lGLESv2 -ljpeg
+	
+controller.o: controller.cpp
+	g++ -c controller.cpp
