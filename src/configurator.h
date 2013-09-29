@@ -1,17 +1,25 @@
 #ifndef CONFIGURATOR_H
 #define CONFIGURATOR_H
 
+#include "model.h"
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <sstream>
+
+using namespace std;
 
 class Configurator{
 	private:
-	iftream alphabetFile;
+	Model model;
 
 	public:
-	Configurator();
-	loadAlphabet();
+	Configurator(Model m);
+	//loadAlphabet();
+	void configureModel();
+	void parseString(string &d, string &v, string &t, string l);
+	~Configurator();
 
-}
+};
+
 #endif

@@ -190,6 +190,7 @@ void View::drawVirtualKeyboard(){}
 void View::drawMenuItem(int x, int y, char *t){
 	
 	}
+	
 void View::drawMenu(){}
 void View::drawBatteryPercentage(int p){}
 void View::setBatteryMaximum(double max){}

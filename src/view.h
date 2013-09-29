@@ -16,8 +16,6 @@ extern "C"{
 
 //Fontinfo Asap;
 
-using namespace std;
-
 class View{
 	private:
 		Model model;

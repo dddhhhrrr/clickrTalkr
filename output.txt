@@ -1,0 +1,64 @@
+Letter added, array size: 1
+Letter added, array size: 2
+Letter added, array size: 3
+Letter added, array size: 4
+Letter added, array size: 5
+Letter added, array size: 6
+Letter added, array size: 7
+Letter added, array size: 8
+Letter added, array size: 9
+Letter added, array size: 10
+Letter added, array size: 11
+Letter added, array size: 12
+Letter added, array size: 13
+Letter added, array size: 14
+Letter added, array size: 15
+Letter added, array size: 16
+Letter added, array size: 17
+Letter added, array size: 18
+Letter added, array size: 19
+Letter added, array size: 20
+Letter added, array size: 21
+Letter added, array size: 22
+Letter added, array size: 23
+Letter added, array size: 24
+Letter added, array size: 25
+Letter added, array size: 26
+Letter added, array size: 27
+Letter added, array size: 28
+Letter added, array size: 29
+Letter added, array size: 30
+Model configured!
+Array size: 30
+alphabet[0]: d= A v= a t= l
+alphabet[1]: d= E v= e t= l
+alphabet[2]: d= I v= i t= l
+alphabet[3]: d= O v= o t= l
+alphabet[4]: d= U v= u t= l
+alphabet[5]: d= Space v=   t= l
+alphabet[6]: d= B v= b t= l
+alphabet[7]: d= C v= c t= l
+alphabet[8]: d= D v= d t= l
+alphabet[9]: d= F v= f t= l
+alphabet[10]: d= G v= g t= l
+alphabet[11]: d= Say it v= x t= a
+alphabet[12]: d= H v= h t= l
+alphabet[13]: d= J v= j t= l
+alphabet[14]: d= K v= k t= l
+alphabet[15]: d= L v= l t= l
+alphabet[16]: d= M v= m t= l
+alphabet[17]: d= Add it v= x t= a
+alphabet[18]: d= N v= n t= l
+alphabet[19]: d= P v= p t= l
+alphabet[20]: d= Q v= q t= l
+alphabet[21]: d= R v= r t= l
+alphabet[22]: d= S v= s t= l
+alphabet[23]: d= 1/2 v= x t= a
+alphabet[24]: d= T v= t t= l
+alphabet[25]: d= V v= v t= l
+alphabet[26]: d= W v= w t= l
+alphabet[27]: d= X v= x t= l
+alphabet[28]: d= Y v= y t= l
+alphabet[29]: d= Z v= z t= l
+Array size: 0
+pin = HIGH
