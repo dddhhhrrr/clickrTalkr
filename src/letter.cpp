@@ -9,6 +9,7 @@ Letter::Letter(string d, string v, string t){
 	letterToDisplay = d;
 	value = v;
 	type = t;
+	cout << "Letter created!" << endl;
 }
 		
 void Letter::setLetterToDisplay(string d){
@@ -36,4 +37,5 @@ string Letter::getType(){
 }
 
 Letter::~Letter(){
+	cout << "Letter destroyed!" << endl;
 }

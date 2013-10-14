@@ -4,13 +4,15 @@
 #include <wiringPi.h>
 #include "view.h"
 
+#define clickrPin 1
+
 class Controller{
 	private:
-		View view;
-		Model model;
+		View &view;
+		Model &model;
 	
 	public:
-		Controller(View v, Model m);
+		Controller(View &v, Model &m);
 		void updateView(int i);
 		int readSensor();
 		void wiringDelay(unsigned int ms);

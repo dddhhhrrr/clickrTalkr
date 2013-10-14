@@ -22,18 +22,20 @@ int main() {
 	int j = 3;
 	
 	Model model;
-	View view(model);
-	Controller controller(view, model);
-	Configurator configurator(model);
+	Model &modelReference = model; 
+	View view(modelReference);
+	View &viewReference = view;
+	Controller controller(viewReference, modelReference);
+	Controller &controllerReference = controller;
+	Configurator configurator(modelReference);
 	configurator.configureModel();
+	cout << "This is from the model.printLetters() Method!" << endl;
 	model.printLetters();
 	//fullText = prefix + text + suffix;
 	if (controller.readSensor()) cout << "pin = HIGH" << endl;
 	else cout << "pin = LOW" << endl;
-	//model.loadLetters();
-
-	for (int i = 1000; i >= 0; i--){
-		view.setPercentage(i/10);
+	for (int i = 100; i >= 0; i--){
+		view.setPercentage(i);
 		view.updateView(!controller.readSensor());
 	}
 	//system(fullText);

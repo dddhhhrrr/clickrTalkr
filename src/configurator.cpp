@@ -2,11 +2,13 @@
 
 using namespace std;
 
-Configurator::Configurator(Model m){	
-	model = m;
+Configurator::Configurator(Model &m):model(m){
+		//model = m;
 }
 
 Configurator::~Configurator(){
+	cout << "object destroyed" << endl;
+	
 }
 
 void Configurator::configureModel(){
@@ -22,7 +24,6 @@ void Configurator::configureModel(){
 			model.addLetterToAlphabet(parsedLetterToDisplay, parsedValue, parsedType);
 		}
 		cout << "Model configured!" << endl;
-		model.printLetters();
 		myFile.close();
 	}
 }

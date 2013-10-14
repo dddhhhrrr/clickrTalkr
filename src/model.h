@@ -10,13 +10,16 @@
 
 class Model{
 	private:
-		vector<Letter> alphabet;
+		vector<Letter*> alphabet;
 		
 	public:
 		Model();
 		void loadLetters();
 		void addLetterToAlphabet(string d, string v, string t);
 		void printLetters();
+		int getAlphabetSize();
+		Letter* getLetterAtIndex(int x);
+		~Model();
 };
 
 #endif

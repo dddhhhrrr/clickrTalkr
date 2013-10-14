@@ -1,11 +1,12 @@
 #include "controller.h"
 
-Controller::Controller(View v, Model m){
-	view = v;
-	model = m;
+Controller::Controller(View &v, Model &m):view(v),model(m)
+{
+	//view = v;
+	//model = m;
 	wiringPiSetup();
-	pinMode(1,INPUT);
-	pullUpDnControl(1,PUD_OFF);
+	pinMode(clickrPin,INPUT);
+	pullUpDnControl(clickrPin,PUD_OFF);
 }
 
 void Controller::updateView(int i){
@@ -13,7 +14,7 @@ void Controller::updateView(int i){
 }
 
 int Controller::readSensor(){
-	return digitalRead(1);
+	return digitalRead(clickrPin);
 }
 
 void Controller::wiringDelay(unsigned int ms){

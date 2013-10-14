@@ -1,10 +1,6 @@
 #include "view.h"
 
-View::View(){
-}
-
-View::View(Model m){
-	model = m;
+View::View(Model &m):model(m){
 	initialize();
 }
 
@@ -14,6 +10,37 @@ int View::getWidth(){
 
 int View::getHeight(){
 	return height;
+}
+
+int View::getSelectedRow(){
+	return selectedRow;
+}
+
+void View::setSelectedRow(int r){
+	selectedRow = r;
+}
+
+int View::getSelectedColumn(){
+	return selectedColumn;
+}
+
+void View::setSelectedColumn(int c){
+	selectedColumn = c;
+}
+int View::getNumberOfRows(){
+	return numberOfRows;
+}
+
+void View::setNumberOfRows(int r){
+	numberOfRows = r;
+}
+
+int View::getNumberOfColumns(){
+	return numberOfColumns;
+}
+
+void View::setNumberOfColumns(int c){
+	numberOfColumns = c;
 }
 
 void View::setPercentage(int p){
@@ -38,13 +65,22 @@ void View::initialize(){
 	Start(width, height);
 	w2 = width/2;
 	h2 = height/2;
+	numberOfRows = 5;
+	numberOfColumns = 6;
+	selectedRow = 2;
+	selectedColumn=4;
+	virtualKeyboardInitialX = 75;
+	virtualKeyboardInitialY = 515;
+	buttonSize = 75;
+	buttonOffsetX = 110;
+	buttonOffsetY = 110;
 }
 
 void View::show(){
 	End();
 }
 
-void View::drawActiveButton(int x, int y, int diameter, char *t){
+void View::drawActiveButton(int x, int y, int diameter, string t){
 	VGfloat radius = diameter/2;
 	VGfloat reflectionHeight = 0.7 * diameter;
 	VGfloat reflectionWidth = 0.85 * diameter;
@@ -66,13 +102,13 @@ void View::drawActiveButton(int x, int y, int diameter, char *t){
 	Circle(x, y, diameter);
 	
 	Fill(255,255,255,1);
-	TextMid(x, y-(32/2), t, SerifTypeface, 32);
+	TextMid(x, y-(32/2), &t[0], SerifTypeface, 32);
 	StrokeWidth(0);
 	FillLinearGradient(x, y + radius + reflectionHeight - reflectionGap + 1, x, y + radius - reflectionHeight - reflectionGap - 1, reflection, 2);
 	Ellipse(x, y + radius - reflectionHeight/2 - reflectionGap, reflectionWidth, reflectionHeight);
 }
 
-void View::drawInactiveButton(int x, int y, int diameter, char *t){
+void View::drawInactiveButton(int x, int y, int diameter, string t){
 	VGfloat radius = diameter/2;
 	VGfloat reflectionHeight = 0.7 * diameter;
 	VGfloat reflectionWidth = 0.85 * diameter;
@@ -94,16 +130,15 @@ void View::drawInactiveButton(int x, int y, int diameter, char *t){
 	Circle(x, y, diameter);
 	
 	Fill(255,255,255,1);
-	TextMid(x, y-(32/2), t, SerifTypeface, 32);
+	TextMid(x, y-(32/2), &t[0], SerifTypeface, 32);
 	
 	StrokeWidth(0);
 	FillLinearGradient(x, y + radius + reflectionHeight - reflectionGap + 1, x, y + radius - reflectionHeight - reflectionGap - 1, reflection, 2);
 	Ellipse(x, y + radius - reflectionHeight/2 - reflectionGap, reflectionWidth, reflectionHeight);
 }
 
-void View::drawBattery(int lbcX, int lbcY, int p, char *t){
-	int fullValue = (p/20)+1;
-	int emptyValue;
+void View::drawBattery(int lbcX, int lbcY, int p, string t){
+	int fullValue = (p/20)+1;	int emptyValue;
 	int barWidth = 3;
 	int barHeight = 8;
 	if (fullValue > 5) fullValue = 5;
@@ -114,7 +149,7 @@ void View::drawBattery(int lbcX, int lbcY, int p, char *t){
 	ostringstream convert;
 	convert << t << " " << p << "%";
 	percStr = convert.str();
-	char *pri = &percStr[0];
+	//char *pri = &percStr[0];
 	
 	switch(fullValue){
 		case 5: { red=0.0; grn=1.0; break; }
@@ -157,13 +192,14 @@ void View::drawBattery(int lbcX, int lbcY, int p, char *t){
 		Line(lbcX+2+(fullValue*barWidth),lbcY+2,lbcX+2+(fullValue*barWidth),lbcY+2+barHeight);
 	}
 	
-	TextEnd(lbcX-3, lbcY, pri, SerifTypeface, 10); 
+	TextEnd(lbcX-3, lbcY, &percStr[0], SerifTypeface, 10); 
 }
 
 void View::updateView(int i){
 	drawBackground();
 	drawBattery(1135, height - 25, percentage, "clicker");
 	drawBattery(1246, height - 25, 100 - percentage, "talker");
+	drawVirtualKeyboard();
 	if (i == 1) drawActiveButton(getWidth()/2,getHeight()/2,75, "A"); 
 	else drawInactiveButton(getWidth()/2,getHeight()/2,75, "B");
 	drawEditor(40,height-180, 1200,140,"The journey is the reward");
@@ -172,22 +208,31 @@ void View::updateView(int i){
 
 
 void View::drawSelector(int x, int y, int l){}
-void View::drawActiveSuggestion(int x,int y, char *t){}
-void View::drawInactiveSuggestion(int x, int y, char *t){}
+void View::drawActiveSuggestion(int x,int y, string t){}
+void View::drawInactiveSuggestion(int x, int y, string t){}
 void View::drawSuggestions(){}
 
-void View::drawEditor(int x1, int y1, int w, int h, char *t){
+void View::drawEditor(int x1, int y1, int w, int h, string t){
 	int fontSize = 24;
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
-	Fill(0,0,0,0);
+	Fill(0,0,0,1);
 	Roundrect(x1,y1, w, h, 50,50);
 	Fill(255,255,255,1);
-	Text((x1+20), y1 + h/2 - fontSize/2, t, SerifTypeface, fontSize);
+	Text((x1+20), y1 + h/2 - fontSize/2, &t[0], SerifTypeface, fontSize);
 	}
 	
-void View::drawVirtualKeyboard(){}
-void View::drawMenuItem(int x, int y, char *t){
+void View::drawVirtualKeyboard(){
+	for (int j = 0; j < numberOfRows; j++){
+		for (int i=0; i < numberOfColumns; i++){
+			if (selectedRow == j && (selectedColumn == i || selectedColumn == -1)) drawActiveButton(virtualKeyboardInitialX + (buttonOffsetX * i), virtualKeyboardInitialY - (buttonOffsetY * j), buttonSize, model.getLetterAtIndex(i+j*numberOfColumns)->getLetterToDisplay());
+			else  drawInactiveButton(virtualKeyboardInitialX + (buttonOffsetX * i), virtualKeyboardInitialY - (buttonOffsetY * j), buttonSize, model.getLetterAtIndex(i+j*numberOfColumns)->getLetterToDisplay());
+		}
+	}
+}
+	
+	
+void View::drawMenuItem(int x, int y, string t){
 	
 	}
 	

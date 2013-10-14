@@ -11,10 +11,10 @@ using namespace std;
 
 class Configurator{
 	private:
-	Model model;
+	Model &model;
 
 	public:
-	Configurator(Model m);
+	Configurator(Model &m);
 	//loadAlphabet();
 	void configureModel();
 	void parseString(string &d, string &v, string &t, string l);
