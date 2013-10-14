@@ -67,13 +67,16 @@ void View::initialize(){
 	h2 = height/2;
 	numberOfRows = 5;
 	numberOfColumns = 6;
-	selectedRow = 2;
-	selectedColumn=4;
+	selectedRow = -1;
+	selectedColumn= -1;
 	virtualKeyboardInitialX = 75;
 	virtualKeyboardInitialY = 515;
+	menuItemPosX = 800;
 	buttonSize = 75;
 	buttonOffsetX = 110;
 	buttonOffsetY = 110;
+	menuItemSizeX = 185;
+	menuItemSizeY = 75;
 }
 
 void View::show(){
@@ -200,8 +203,9 @@ void View::updateView(int i){
 	drawBattery(1135, height - 25, percentage, "clicker");
 	drawBattery(1246, height - 25, 100 - percentage, "talker");
 	drawVirtualKeyboard();
-	if (i == 1) drawActiveButton(getWidth()/2,getHeight()/2,75, "A"); 
-	else drawInactiveButton(getWidth()/2,getHeight()/2,75, "B");
+	if (i == 1){ selectedRow = 2;}
+	else { selectedRow = -1;}
+	drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
 	drawEditor(40,height-180, 1200,140,"The journey is the reward");
 	show();
 }
@@ -232,9 +236,37 @@ void View::drawVirtualKeyboard(){
 }
 	
 	
-void View::drawMenuItem(int x, int y, string t){
+void View::drawActiveMenuItem(int x, int y, string t){
+	VGfloat reflectionHeight = 0.7 * menuItemSizeY;
+	VGfloat reflectionWidth = 0.85 * menuItemSizeX;
+	VGfloat reflectionGap = 0.025 * menuItemSizeY;
 	
-	}
+	VGfloat stops[] = {
+		0.0, 0.4, 0.4, 0.4, 1.0, //posicion, r,g, b ,a
+		1.0, 0.1, 0.1, 0.1, 1.0
+	};
+	
+	VGfloat reflection[] = {
+		0.0, 1.0, 1.0, 1.0, 0.4, //posicion, r,g, b ,a
+		1.0, 1.0, 1.0, 1.0, 0.0
+	};
+	
+	FillLinearGradient(x-menuItemSizeX/2, y-menuItemSizeY/2, menuItemSizeX, menuItemSizeY, stops, 2);
+	StrokeWidth(1);
+	Stroke(255,255,255,1);
+	Roundrect(x - (menuItemSizeX/2), y - (menuItemSizeY/2), menuItemSizeX,  menuItemSizeY, menuItemSizeY, menuItemSizeY);
+	
+	StrokeWidth(0);
+	FillLinearGradient(x, y + menuItemSizeY/2 + reflectionHeight - reflectionGap + 1, x, y + menuItemSizeY/2 - reflectionHeight - reflectionGap - 1, reflection, 2);
+	Roundrect(x - (reflectionWidth/2), y - (reflectionHeight/2), reflectionWidth, reflectionHeight, reflectionHeight, reflectionHeight);
+	
+	Fill(255,255,255,1);
+	TextMid(x, y-(18/2), &t[0], SerifTypeface, 18);
+}
+
+void View::drawInactiveMenuItem(int x, int y, string t){
+		
+}
 	
 void View::drawMenu(){}
 void View::drawBatteryPercentage(int p){}

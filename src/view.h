@@ -35,6 +35,9 @@ class View{
 			selectorOffset,
 			buttonSizeX,
 			buttonSizeY,
+			menuItemSizeX,
+			menuItemSizeY,
+			menuItemPosX,
 			batteryPosX,
 			batteryPosY,
 			suggestionOffset,
@@ -72,7 +75,8 @@ class View{
 	    void drawSuggestions();
 	    void drawEditor(int x1, int y1, int w, int h, string t);
 	    void drawVirtualKeyboard();
-	    void drawMenuItem(int x, int y, string t);
+	    void drawActiveMenuItem(int x, int y, string t);
+	    void drawInactiveMenuItem(int x, int y, string t);
 	    void drawMenu();
 	    void drawBatteryPercentage(int p);
 	    void setBatteryMaximum(double max);
