@@ -7,18 +7,20 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-//#include "asap.inc"
+#include "HelveticaLight.inc"
 
 extern "C"{
-#include "fontinfo.h"
+	
+#include "fontinfoHelveticaLight.h"
 #include "shapes.h"
 }
 
-//Fontinfo Asap;
+
 
 class View{
 	private:
 		Model &model;
+		Fontinfo HelveticaLight;
 		
 		VGfloat w2, h2;
 		int width,

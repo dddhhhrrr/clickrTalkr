@@ -2,6 +2,12 @@
 
 View::View(Model &m):model(m){
 	initialize();
+		HelveticaLight=loadfont(HelveticaLight_glyphPoints,
+				HelveticaLight_glyphPointIndices,
+				HelveticaLight_glyphInstructions,
+				HelveticaLight_glyphInstructionIndices,
+				HelveticaLight_glyphInstructionCounts,
+				HelveticaLight_glyphAdvances, HelveticaLight_characterMap, HelveticaLight_glyphCount);
 }
 
 int View::getWidth(){
@@ -101,15 +107,15 @@ void View::drawActiveButton(int x, int y, int diameter, string t){
 	};
 	
 	if (t.length() > 1) fontsize = 14;
-	else fontsize = 32;
+	else fontsize = 24;
 	
-	FillLinearGradient(x, y+radius, x, y-radius, stops, 2);
-	StrokeWidth(1);
+	FillLinearGradient(x, y+radius+1, x, y-radius-1, stops, 2);
+	StrokeWidth(0);
 	Stroke(255,255,255,1);
 	Circle(x, y, diameter);
 	
 	Fill(255,255,255,1);
-	TextMid(x, y-(fontsize/2), &t[0], SerifTypeface, fontsize);
+	TextMid(x, y-(fontsize/2), &t[0], HelveticaLight, fontsize);
 	StrokeWidth(0);
 	FillLinearGradient(x, y + radius + reflectionHeight - reflectionGap + 1, x, y + radius - reflectionHeight - reflectionGap - 1, reflection, 2);
 	Ellipse(x, y + radius - reflectionHeight/2 - reflectionGap, reflectionWidth, reflectionHeight);
@@ -126,22 +132,22 @@ void View::drawInactiveButton(int x, int y, int diameter, string t){
 		0.0, 0.4, 0.4, 0.4, 1.0, //posicion, r,g, b ,a
 		1.0, 0.1, 0.1, 0.1, 1.0
 	};
-	
+
 	VGfloat reflection[] = {
 		0.0, 1.0, 1.0, 1.0, 0.4, //posicion, r,g, b ,a
 		1.0, 1.0, 1.0, 1.0, 0.0
 	};
 	
 	if (t.length() > 1) fontsize = 14;
-	else fontsize = 32;
+	else fontsize = 24;
 	
-	FillLinearGradient(x, y+radius, x, y-radius, stops, 2);
-	StrokeWidth(1);
+	FillLinearGradient(x, y+radius+1, x, y-radius-1, stops, 2);
+	StrokeWidth(0);
 	Stroke(255,255,255,1);
 	Circle(x, y, diameter);
 	
 	Fill(255,255,255,1);
-	TextMid(x, y-(fontsize/2), &t[0], SerifTypeface, fontsize);
+	TextMid(x, y-(fontsize/2), &t[0], HelveticaLight, fontsize);
 	
 	StrokeWidth(0);
 	FillLinearGradient(x, y + radius + reflectionHeight - reflectionGap + 1, x, y + radius - reflectionHeight - reflectionGap - 1, reflection, 2);
@@ -203,13 +209,13 @@ void View::drawBattery(int lbcX, int lbcY, int p, string t){
 		Line(lbcX+2+(fullValue*barWidth),lbcY+2,lbcX+2+(fullValue*barWidth),lbcY+2+barHeight);
 	}
 	
-	TextEnd(lbcX-3, lbcY, &percStr[0], SerifTypeface, 10); 
+	TextEnd(lbcX-3, lbcY+2, &percStr[0], HelveticaLight, 10); 
 }
 
 void View::updateView(int i){
 	drawBackground();
-	drawBattery(1135, height - 25, percentage, "clicker");
-	drawBattery(1246, height - 25, 100 - percentage, "talker");
+	drawBattery(1118, height - 25, percentage, "clicker");
+	drawBattery(1218, height - 25, 100 - percentage, "talker");
 	drawVirtualKeyboard();
 	if (i == 1){ selectedRow = 2;}
 	else { selectedRow = -1;}
@@ -217,6 +223,7 @@ void View::updateView(int i){
 	drawEditor(40,height-180, 1200,140,"The journey is the reward");
 	drawTextEditor();
 	show();
+	
 }
 
 
@@ -232,7 +239,7 @@ void View::drawEditor(int x1, int y1, int w, int h, string t){
 	Fill(0,0,0,1);
 	Roundrect(x1,y1, w, h, 50,50);
 	Fill(255,255,255,1);
-	Text((x1+20), y1 + h/2 - fontSize/2, &t[0], SerifTypeface, fontSize);
+	Text((x1+20), y1 + h/2 - fontSize/2, &t[0], HelveticaLight, fontSize);
 	}
 	
 void View::drawVirtualKeyboard(){
@@ -261,7 +268,7 @@ void View::drawActiveMenuItem(int x, int y, string t){
 	};
 	
 	FillLinearGradient(x, y+menuItemSizeY/2, x, y-menuItemSizeY/2, stops, 2);
-	StrokeWidth(1);
+	StrokeWidth(0);
 	Stroke(255,255,255,1);
 	Roundrect(x - (menuItemSizeX/2), y - (menuItemSizeY/2), menuItemSizeX,  menuItemSizeY, menuItemSizeY, menuItemSizeY);
 	
@@ -270,7 +277,7 @@ void View::drawActiveMenuItem(int x, int y, string t){
 	Roundrect(x - (reflectionWidth/2), y + (menuItemSizeY/2) - reflectionHeight - reflectionGap , reflectionWidth, reflectionHeight, reflectionHeight, reflectionHeight);
 	
 	Fill(255,255,255,1);
-	TextMid(x, y-(18/2), &t[0], SerifTypeface, 18);
+	TextMid(x, y-(18/2), &t[0], HelveticaLight, 18);
 }
 
 void View::drawInactiveMenuItem(int x, int y, string t){
@@ -289,7 +296,7 @@ void View::drawInactiveMenuItem(int x, int y, string t){
 	};
 	
 	FillLinearGradient(x, y+menuItemSizeY/2, x, y-menuItemSizeY/2, stops, 2);
-	StrokeWidth(1);
+	StrokeWidth(0);
 	Stroke(255,255,255,1);
 	Roundrect(x - (menuItemSizeX/2), y - (menuItemSizeY/2), menuItemSizeX,  menuItemSizeY, menuItemSizeY, menuItemSizeY);
 	
@@ -298,7 +305,7 @@ void View::drawInactiveMenuItem(int x, int y, string t){
 	Roundrect(x - (reflectionWidth/2), y + (menuItemSizeY/2) - reflectionHeight - reflectionGap , reflectionWidth, reflectionHeight, reflectionHeight, reflectionHeight);
 	
 	Fill(255,255,255,1);
-	TextMid(x, y-(18/2), &t[0], SerifTypeface, 18);	
+	TextMid(x, y-(18/2), &t[0], HelveticaLight, 18);	
 }
 	
 void View::drawMenu(){
