@@ -13,10 +13,11 @@ using namespace std;
 
 int main() {
 	char a;
-	//string prefix="espeak \"";
-	//string text="Hi, thanks for using clickerTalker, this is a test";
-	//string suffix="\"";
-	char *fullText; 
+	string prefix="espeak \"";
+	string text="Hi, thanks for using clickerTalker, this is a test";
+	string suffix="\"";
+	string fullTextString = prefix + text + suffix;
+	char *fullText = &fullTextString[0]; 
 	string value;
 	int pin;
 	int j = 3;
@@ -31,14 +32,13 @@ int main() {
 	configurator.configureModel();
 	cout << "This is from the model.printLetters() Method!" << endl;
 	model.printLetters();
-	//fullText = prefix + text + suffix;
 	if (controller.readSensor()) cout << "pin = HIGH" << endl;
 	else cout << "pin = LOW" << endl;
 	for (int i = 100; i >= 0; i--){
 		view.setPercentage(i);
 		view.updateView(!controller.readSensor());
 	}
-	//system(fullText);
+	system(fullText);
 	sleep(1);
     exit(0);
 }
