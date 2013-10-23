@@ -8,6 +8,9 @@
 #include "controller.h"
 #include "configurator.h"
 
+#define NUMBER_OF_ROWS 5
+#define NUMBER_OF_COLUMNS 6
+
 using namespace std;
 
 int main() {
@@ -27,8 +30,9 @@ int main() {
 	View &viewReference = view;
 	Controller controller(viewReference, modelReference);
 	Controller &controllerReference = controller;
-	Configurator configurator(modelReference);
+	Configurator configurator(modelReference, viewReference, controllerReference);
 	configurator.configureModel();
+	configurator.configureView();
 	cout << "This is from the model.printLetters() Method!" << endl;
 	model.printLetters();
 	if (controller.readSensor()) cout << "pin = HIGH" << endl;

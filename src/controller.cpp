@@ -3,14 +3,11 @@
 Controller::Controller(View &v, Model &m):view(v),model(m)
 {
 	cout << "Controller created!" << endl;
-	wiringPiSetup();
-	pinMode(CLICKR_PIN,INPUT);
-	pullUpDnControl(CLICKR_PIN,PUD_OFF);
 }
 
 
 int Controller::readSensor(){
-	return digitalRead(CLICKR_PIN);
+	return clicker.getStatus();
 }
 
 void Controller::wiringDelay(unsigned int ms){

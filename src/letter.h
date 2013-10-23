@@ -21,6 +21,7 @@ class Letter{
 		string getValue();
 		void setType(string t);
 		string getType();
+		void execute();
 };
 
 #endif

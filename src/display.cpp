@@ -3,12 +3,7 @@
 Display::Display(Model &m):model(m){
 	cout <<"Display created!" << endl;
 	initialize();
-	HelveticaLight=loadfont(HelveticaLight_glyphPoints,
-	HelveticaLight_glyphPointIndices,
-	HelveticaLight_glyphInstructions,
-	HelveticaLight_glyphInstructionIndices,
-	HelveticaLight_glyphInstructionCounts,
-	HelveticaLight_glyphAdvances, HelveticaLight_characterMap, HelveticaLight_glyphCount);
+
 }
 
 int Display::getWidth(){
@@ -64,7 +59,7 @@ VGfloat Display::getW2(){
 
 void Display::drawBackground(){
 	StrokeWidth(0);
-    Background(0,0,0);
+    Background(52,52,52);
 }
 
 void Display::initialize(){
@@ -84,6 +79,13 @@ void Display::initialize(){
 	buttonOffsetY = 110;
 	menuItemSizeX = 185;
 	menuItemSizeY = 75;
+	HelveticaLight=loadfont(HelveticaLight_glyphPoints,
+	HelveticaLight_glyphPointIndices,
+	HelveticaLight_glyphInstructions,
+	HelveticaLight_glyphInstructionIndices,
+	HelveticaLight_glyphInstructionCounts,
+	HelveticaLight_glyphAdvances, HelveticaLight_characterMap, HelveticaLight_glyphCount);
+	
 	cout << "Diplay initialized!" << endl;
 }
 
@@ -104,7 +106,7 @@ void Display::drawActiveButton(int x, int y, int diameter, string t){
 	Fill(255,255,255,1);
 	Circle(x, y, diameter);
 	
-	Fill(0,0,0,1);
+	Fill(52,52,52,1);
 	TextMid(x, y-(fontsize/2), &t[0], HelveticaLight, fontsize);
 }
 
@@ -117,7 +119,7 @@ void Display::drawInactiveButton(int x, int y, int diameter, string t){
 	
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
-	Fill(0,0,0,0);
+	Fill(52,52,52,0);
 	Circle(x, y, diameter);
 	
 	Fill(255,255,255,1);
@@ -206,7 +208,7 @@ void Display::drawEditor(int x1, int y1, int w, int h, string t){
 	int fontSize = 24;
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
-	Fill(0,0,0,1);
+	Fill(0,0,0,0);
 	Roundrect(x1,y1, w, h, 50,50);
 	Fill(255,255,255,1);
 	Text((x1+20), y1 + h/2 - fontSize/2, &t[0], HelveticaLight, fontSize);

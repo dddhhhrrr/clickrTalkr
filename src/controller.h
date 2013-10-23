@@ -3,14 +3,13 @@
 
 #include <wiringPi.h>
 #include "view.h"
-
-#define CLICKR_PIN 1
-#define LED_PIN 2
+#include "clicker.h"
 
 class Controller{
 	private:
 		View &view;
 		Model &model;
+		Clicker clicker;
 	
 	public:
 		Controller(View &v, Model &m);

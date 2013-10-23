@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Configurator::Configurator(Model &m):model(m){
+Configurator::Configurator(Model &m, View &v, Controller &c):model(m), view(v), controller(c){
 	cout << "Configurator created!" << endl;
 }
 
@@ -11,28 +11,59 @@ Configurator::~Configurator(){
 	
 }
 
-void Configurator::configureModel(){
+int Configurator::configureModel(){
 	string line;
-	ifstream myFile("alphabet.txt");
-	if (myFile.is_open())
+	ifstream inputFile("alphabet.txt");
+	if (inputFile.is_open())
 	{
-		while(getline(myFile,line)){
+		while(getline(inputFile,line)){
 			string parsedLetterToDisplay;
 			string parsedValue;
 			string parsedType;
-			parseString(parsedLetterToDisplay, parsedValue, parsedType, line);
+			parseLetterString(parsedLetterToDisplay, parsedValue, parsedType, line);
 			model.addLetterToAlphabet(parsedLetterToDisplay, parsedValue, parsedType);
 		}
 		cout << "Model configured!" << endl;
-		myFile.close();
+		inputFile.close();
+		return 1;
 	}
+	else cout << "alphabet.txt not found..." << endl;
+	return -1;
 }
 
-void Configurator::parseString(string &d, string &v, string &t, string l){
+int Configurator::configureView(){
+	string line;
+	ifstream inputFile("settings.txt");
+	if (inputFile.is_open())
+	{
+		while(getline(inputFile,line)){
+			parseAndConfigure(line);
+		}
+		cout << "View configured!" << endl;
+		inputFile.close();
+		return 1;
+	}
+	else cout << "settings.txt not found..." << endl;
+	return -1;
+}
+
+int Configurator::configureController(){
+}
+
+int Configurator::parseLetterString(string &d, string &v, string &t, string l){
 istringstream iss(l);
 getline(iss,d,',');
 getline(iss,v,',');
 getline(iss,t,',');
+return 1;
+}
+
+int Configurator::parseAndConfigure(string l){
+string attributeToConfigure, value;
+istringstream iss(l);
+getline(iss, attributeToConfigure, '=');
+getline(iss, value, '\n');
+cout << "Attribute to configure: " << attributeToConfigure << ", value: " << value << endl;
 }
 
 Display Configurator::createDisplay(string skinName){
