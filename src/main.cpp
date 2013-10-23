@@ -8,7 +8,6 @@
 #include "controller.h"
 #include "configurator.h"
 
-
 using namespace std;
 
 int main() {
@@ -35,8 +34,8 @@ int main() {
 	if (controller.readSensor()) cout << "pin = HIGH" << endl;
 	else cout << "pin = LOW" << endl;
 	for (int i = 100; i >= 0; i--){
-		view.setPercentage(i);
-		view.updateView(!controller.readSensor());
+		
+		view.updateView(i,!controller.readSensor());
 	}
 	system(fullText);
 	sleep(1);

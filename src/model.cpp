@@ -3,7 +3,7 @@
 using namespace std;
 
 Model::Model(){
-	cout <<"model created" <<endl;
+	cout << "Model created!" <<endl;
 	}
 
 void Model::addLetterToAlphabet(string d, string v, string t){

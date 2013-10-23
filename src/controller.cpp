@@ -2,21 +2,21 @@
 
 Controller::Controller(View &v, Model &m):view(v),model(m)
 {
-	//view = v;
-	//model = m;
+	cout << "Controller created!" << endl;
 	wiringPiSetup();
-	pinMode(clickrPin,INPUT);
-	pullUpDnControl(clickrPin,PUD_OFF);
+	pinMode(CLICKR_PIN,INPUT);
+	pullUpDnControl(CLICKR_PIN,PUD_OFF);
 }
 
-void Controller::updateView(int i){
-	view.updateView(!i);
-}
 
 int Controller::readSensor(){
-	return digitalRead(clickrPin);
+	return digitalRead(CLICKR_PIN);
 }
 
 void Controller::wiringDelay(unsigned int ms){
 	wiringDelay(ms);
+}
+
+Controller::~Controller(){
+	cout << "Controller destroyed!" << endl;
 }

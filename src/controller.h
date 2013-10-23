@@ -4,7 +4,8 @@
 #include <wiringPi.h>
 #include "view.h"
 
-#define clickrPin 1
+#define CLICKR_PIN 1
+#define LED_PIN 2
 
 class Controller{
 	private:
@@ -13,10 +14,9 @@ class Controller{
 	
 	public:
 		Controller(View &v, Model &m);
-		void updateView(int i);
 		int readSensor();
 		void wiringDelay(unsigned int ms);
-	
+		~Controller();
 };
 
 #endif

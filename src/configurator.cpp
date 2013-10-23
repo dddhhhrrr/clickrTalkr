@@ -3,11 +3,11 @@
 using namespace std;
 
 Configurator::Configurator(Model &m):model(m){
-		//model = m;
+	cout << "Configurator created!" << endl;
 }
 
 Configurator::~Configurator(){
-	cout << "object destroyed" << endl;
+	cout << "Configurator destroyed" << endl;
 	
 }
 
@@ -34,4 +34,8 @@ getline(iss,d,',');
 getline(iss,v,',');
 getline(iss,t,',');
 }
-	
+
+Display Configurator::createDisplay(string skinName){
+	//Display d = iDisplay.getDisplay(skinName);
+	//return d;
+}
