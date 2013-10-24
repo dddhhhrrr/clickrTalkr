@@ -217,8 +217,10 @@ void Display::drawEditor(int x1, int y1, int w, int h, string t){
 void Display::drawVirtualKeyboard(){
 	for (int j = 0; j < numberOfRows; j++){
 		for (int i=0; i < numberOfColumns; i++){
-			if (selectedRow == j && (selectedColumn == i || selectedColumn == -1)) drawActiveButton(virtualKeyboardInitialX + (buttonOffsetX * i), virtualKeyboardInitialY - (buttonOffsetY * j), buttonSize, model.getLetterAtIndex(i+j*numberOfColumns)->getLetterToDisplay());
-			else  drawInactiveButton(virtualKeyboardInitialX + (buttonOffsetX * i), virtualKeyboardInitialY - (buttonOffsetY * j), buttonSize, model.getLetterAtIndex(i+j*numberOfColumns)->getLetterToDisplay());
+			if (i+j*numberOfColumns < model.getAlphabetSize()){
+				if (selectedRow == j && (selectedColumn == i || selectedColumn == -1)) drawActiveButton(virtualKeyboardInitialX + (buttonOffsetX * i), virtualKeyboardInitialY - (buttonOffsetY * j), buttonSize, model.getLetterAtIndex(i+j*numberOfColumns)->getLetterToDisplay());
+				else  drawInactiveButton(virtualKeyboardInitialX + (buttonOffsetX * i), virtualKeyboardInitialY - (buttonOffsetY * j), buttonSize, model.getLetterAtIndex(i+j*numberOfColumns)->getLetterToDisplay());
+			}
 		}
 	}
 }

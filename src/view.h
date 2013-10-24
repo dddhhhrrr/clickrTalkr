@@ -13,7 +13,7 @@
 class View{
 	private:
 		Model &model;
-		skinBubbly display;
+		Display display;
 		
 		int selectedRow,
 			selectedColumn,

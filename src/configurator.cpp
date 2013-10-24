@@ -37,7 +37,11 @@ int Configurator::configureView(){
 	if (inputFile.is_open())
 	{
 		while(getline(inputFile,line)){
-			parseAndConfigure(line);
+			string attribute, value;
+			parseConfigurationLine(attribute, value, line);
+			if (attribute == "number of rows") view.setNumberOfRows(atoi(&value[0]));
+			if (attribute == "number of columns") view.setNumberOfColumns(atoi(&value[0]));
+			if (attribute == "skin") {}//view.doSomething();
 		}
 		cout << "View configured!" << endl;
 		inputFile.close();
@@ -58,12 +62,11 @@ getline(iss,t,',');
 return 1;
 }
 
-int Configurator::parseAndConfigure(string l){
-string attributeToConfigure, value;
+int Configurator::parseConfigurationLine(string &attr, string &val, string l){
 istringstream iss(l);
-getline(iss, attributeToConfigure, '=');
-getline(iss, value, '\n');
-cout << "Attribute to configure: " << attributeToConfigure << ", value: " << value << endl;
+getline(iss, attr, '=');
+getline(iss, val, '\n');
+cout << "Attribute to configure: " << attr << ", value: " << val << endl;
 }
 
 Display Configurator::createDisplay(string skinName){

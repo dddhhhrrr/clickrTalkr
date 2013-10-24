@@ -36,6 +36,7 @@ int View::getNumberOfRows(){
 
 void View::setNumberOfRows(int r){
 	numberOfRows = r;
+	display.setNumberOfRows(r);
 }
 
 int View::getNumberOfColumns(){
@@ -44,6 +45,7 @@ int View::getNumberOfColumns(){
 
 void View::setNumberOfColumns(int c){
 	numberOfColumns = c;
+	display.setNumberOfColumns(c);
 }
 
 int View::getCurrentBank(){

@@ -25,7 +25,7 @@ class Configurator{
 	int configureController();
 	Display createDisplay(string skinName);
 	int parseLetterString(string &d, string &v, string &t, string l);
-	int parseAndConfigure(string l);
+	int parseConfigurationLine(string &attr, string &val, string l);
 	~Configurator();
 
 };
