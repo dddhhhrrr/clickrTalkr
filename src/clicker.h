@@ -17,10 +17,16 @@ class Clicker{
 	private:
 		bool activeLow; //if the sensor is active low (for example a switch connected to a pull-up resistor) this needs to be set to TRUE, otherwise, set to FALSE
 		bool status; //the logic state, after the needed treatment (filtering, inversion, etc) has been given to the clicker signal
-		
+		int clickerPin;
+		int ledPin;
 	public:
 		Clicker();
+		Clicker(int cPin, int lPin);
 		~Clicker();
+		void setClickerPin(int p);
+		int getClickerPin();
+		void setLedPin(int p);
+		int getLedPin();
 		bool getStatus();
 		bool isActiveLow();
 		bool isActiveLow(bool al);

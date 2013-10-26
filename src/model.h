@@ -12,16 +12,16 @@ class Model{
 	private:
 		vector<Letter*> alphabet;
 		string currentWord,
-			   currentPhrase;
+			   phraseToSay;
 	public:
 		Model();
 		string getCurrentWord();
 		void setCurrentWord(string w);
-		string getCurrentPhrase();
-		void setCurrentPhrase(string ph);
-		void addLetterToCurrenPhrase(string l);
+		string getPhraseToSay();
+		void setPhraseToSay(string ph);
+		void addLetterToPhraseToSay(string l);
 		void clearCurrentWord();
-		void clearCurrentPhrase();
+		void clearPhraseToSay();
 		void loadLetters();
 		void addLetterToAlphabet(string d, string v, string t);
 		void printLetters();

@@ -2,12 +2,25 @@
 
 using namespace std;
 
-Clicker::Clicker()
-{
+Clicker::Clicker(){
+	setClickerPin(CLICKER_PIN);
+	setLedPin(LED_PIN);
 	cout << "Clicker created!" << endl;
 	wiringPiSetup();
-	pinMode(CLICKER_PIN,INPUT);
-	pullUpDnControl(CLICKER_PIN,PUD_OFF);
+	pinMode(clickerPin,INPUT);
+	pullUpDnControl(clickerPin,PUD_OFF);
+	pinMode(LED_PIN,OUTPUT);
+	digitalWrite(LED_PIN,LOW);
+	isActiveLow(false);
+}
+
+Clicker::Clicker(int cPin, int lPin){
+	setClickerPin(cPin);
+	setLedPin(lPin);
+	//cout << "Clicker created!" << endl;
+	wiringPiSetup();
+	pinMode(clickerPin,INPUT);
+	pullUpDnControl(clickerPin,PUD_OFF);
 	pinMode(LED_PIN,OUTPUT);
 	digitalWrite(LED_PIN,LOW);
 	isActiveLow(false);
@@ -20,7 +33,7 @@ bool Clicker::readSensor(){
 }
 
 bool Clicker::getStatus(){
-	status = readSensor();// ^ isActiveLow(); //for a simple digital sensor, the status is an XOR between the value read from the sensor and the bit indicating if it's active low
+	status = readSensor() ^ isActiveLow(); //for a simple digital sensor, the status is an XOR between the value read from the sensor and the bit indicating if it's active low
 	if (status) turnOnLED();
 	else turnOffLED();
 	return status;
@@ -36,9 +49,25 @@ bool Clicker::isActiveLow(bool al){
 }
 
 void Clicker::turnOnLED(){
-	digitalWrite(3,1);
+	digitalWrite(3,HIGH);
 }
 
 void Clicker::turnOffLED(){
-	digitalWrite(3,0);
+	digitalWrite(3,LOW);
+}
+
+void Clicker::setClickerPin(int p){
+	clickerPin = p;
+}
+
+int Clicker::getClickerPin(){
+	return clickerPin;
+}
+
+void Clicker::setLedPin(int p){
+	ledPin = p;
+}
+
+int Clicker::getLedPin(){
+	return ledPin;
 }

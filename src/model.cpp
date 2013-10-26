@@ -3,6 +3,7 @@
 using namespace std;
 
 Model::Model(){
+	phraseToSay = "Diego Hoyos";
 	cout << "Model created!" <<endl;
 	}
 
@@ -25,6 +26,34 @@ int Model::getAlphabetSize(){
 
 Letter* Model::getLetterAtIndex(int x){
 	return alphabet[x];
+}
+
+string Model::getCurrentWord(){
+	return currentWord;
+}
+
+void Model::setCurrentWord(string w){
+	currentWord = w;
+}
+
+string Model::getPhraseToSay(){
+	return phraseToSay;
+}
+
+void Model::setPhraseToSay(string ph){
+	phraseToSay = ph;
+}
+
+void Model::addLetterToPhraseToSay(string l){
+	phraseToSay.append(l);
+}
+
+void Model::clearCurrentWord(){
+	currentWord = "";
+}
+
+void Model::clearPhraseToSay(){
+	phraseToSay= "";
 }
 
 Model::~Model(){

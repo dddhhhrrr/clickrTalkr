@@ -27,7 +27,8 @@ int Configurator::configureModel(){
 		inputFile.close();
 		return 1;
 	}
-	else cout << "alphabet.txt not found..." << endl;
+	else cout << endl << "alphabet.txt not found..." << endl;
+	exit(0);
 	return -1;
 }
 
@@ -47,11 +48,17 @@ int Configurator::configureView(){
 		inputFile.close();
 		return 1;
 	}
-	else cout << "settings.txt not found..." << endl;
+	else cout << endl << "settings.txt not found..." << endl;
+	exit(0);
 	return -1;
 }
 
 int Configurator::configureController(){
+	controller.setNumberOfRows(view.getNumberOfRows());
+	controller.setNumberOfColumns(view.getNumberOfColumns());
+	for (int i = 0; i < model.getAlphabetSize(); i++){
+		controller.addButtonToVector(model.getLetterAtIndex(i)->getValue(), model.getLetterAtIndex(i)->getType());
+	}
 }
 
 int Configurator::parseLetterString(string &d, string &v, string &t, string l){

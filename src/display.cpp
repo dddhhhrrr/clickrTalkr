@@ -192,10 +192,9 @@ void Display::updateView(int i){
 	if (i == 1){ selectedRow = 2;}
 	else { selectedRow = -1;}
 	drawMenu();
-	drawEditor(40,height-180, 1200,140,"The journey is the reward");
+	drawEditor(40,height-180, 1200,140,model.getPhraseToSay());
 	drawTextEditor();
 	show();
-		cout << "Display.updateView()" << endl;
 }
 
 

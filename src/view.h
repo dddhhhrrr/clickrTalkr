@@ -24,6 +24,7 @@ class View{
 
 	public:
 		View(Model &m);
+		View(Model &m, Display &d);
 		int updateView(int i, int j);
 		~View();
 		

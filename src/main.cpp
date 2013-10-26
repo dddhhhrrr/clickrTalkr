@@ -33,13 +33,15 @@ int main() {
 	Configurator configurator(modelReference, viewReference, controllerReference);
 	configurator.configureModel();
 	configurator.configureView();
+	configurator.configureController();
 	cout << "This is from the model.printLetters() Method!" << endl;
 	model.printLetters();
-	if (controller.readSensor()) cout << "pin = HIGH" << endl;
+	if (controller.getStatus()) cout << "pin = HIGH" << endl;
 	else cout << "pin = LOW" << endl;
 	for (int i = 100; i >= 0; i--){
-		
-		view.updateView(i,!controller.readSensor());
+		//cout << controller.waitForClickOrTimeout() << endl;
+		//view.updateView(i,controller.getStatus());
+		view.updateView(i,controller.waitForClickOrTimeout());
 	}
 	system(fullText);
 	sleep(1);
