@@ -1,0 +1,3 @@
+number of rows=5
+number of columns=6
+skin=bubbly
