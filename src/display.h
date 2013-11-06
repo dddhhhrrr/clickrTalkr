@@ -1,3 +1,5 @@
+//the class display (part of the view) is in charge of all the output to the screen
+
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
@@ -16,7 +18,7 @@ extern "C"{
 
 class Display{
 	private:
-		Model &model;
+		Model &model;  //reference of the model, necessary to interact with it
 		
 		VGfloat w2, h2; //w2 is half the width of the screen, h2 is half the height, so (w2,h2) represents the center of the 
 		int width, //on initialization this attribute will take the value of the width of the screen			
@@ -43,8 +45,8 @@ class Display{
 			suggestionY, //vertical position where the suggestions should be placed
 			percentage; //the remaining battery life expressed as a percentage
 			
-		double  batMax,
-				batMin;
+		double  batMax, //the maximum value of the battery's voltage, used to calculate the battery's percentage
+				batMin; //the minimum value of the battery's voltage, used to calculate the battery's percentage
 	protected:
 		Fontinfo HelveticaLight;
 		
@@ -86,7 +88,7 @@ class Display{
 	    virtual void drawTextEditor();
 	    virtual void drawBattery(int leftTopCornerX, int leftTopCornerY, int p, string t);
 	    virtual void show();
-	    virtual void updateView(int i);
+	    virtual void updateView();
 	    
 };
 

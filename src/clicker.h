@@ -1,3 +1,5 @@
+//the class clicker (part of the controller) is in charge of reading and interpreting the state of the clicker (the sensor which the user will activate to navigate through the application)
+
 #ifndef CLICKER_H
 #define CLICKER_H
 
@@ -17,8 +19,8 @@ class Clicker{
 	private:
 		bool activeLow; //if the sensor is active low (for example a switch connected to a pull-up resistor) this needs to be set to TRUE, otherwise, set to FALSE
 		bool status; //the logic state, after the needed treatment (filtering, inversion, etc) has been given to the clicker signal
-		int clickerPin;
-		int ledPin;
+		int clickerPin; //the pin to which the input of the clicker is connected (by default 1)
+		int ledPin; //the pin to which the LED (if any) on the clicker is connected
 	public:
 		Clicker();
 		Clicker(int cPin, int lPin);

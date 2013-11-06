@@ -1,5 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
+//contains an alphabet, the current word that is being formed, the current phrase that is being formed, and a list of words to be used to give the user suggestions
 
 #include <vector>
 #include "letter.h"

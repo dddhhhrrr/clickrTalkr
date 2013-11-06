@@ -1,6 +1,8 @@
 #ifndef CONFIGURATOR_H
 #define CONFIGURATOR_H
 
+//the configurator class is in charge of configuring all (or at least, most) of the classes that make clickrTalkr
+
 #include "model.h"
 #include "view.h"
 #include "controller.h"

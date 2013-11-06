@@ -1,3 +1,5 @@
+//represents a letter, a vector of letters is used to create the virtual keyboard
+
 #ifndef LETTER_H
 #define LETTER_H
 

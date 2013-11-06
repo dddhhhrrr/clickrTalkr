@@ -11,12 +11,13 @@ Configurator::~Configurator(){
 	
 }
 
+/*   this method reads a textfile (alphabet.txt) and creates a vector  of objects of type Letter which will be used to create the virtual keyboard   */
 int Configurator::configureModel(){
 	string line;
 	ifstream inputFile("alphabet.txt");
 	if (inputFile.is_open())
 	{
-		while(getline(inputFile,line)){
+		while(getline(inputFile,line)){ //for each line in the file, parse it and return the values as parsedLetterToDisplay, parsedValue and parsedType to create a new Letter in the model
 			string parsedLetterToDisplay;
 			string parsedValue;
 			string parsedType;
@@ -32,6 +33,7 @@ int Configurator::configureModel(){
 	return -1;
 }
 
+/*   this method reads settings.txt and configure some values on the view depending on the content of the textfile   */
 int Configurator::configureView(){
 	string line;
 	ifstream inputFile("settings.txt");
@@ -53,6 +55,7 @@ int Configurator::configureView(){
 	return -1;
 }
 
+/* this method will configure the controller depending on different values on the model and the view   */
 int Configurator::configureController(){
 	controller.setNumberOfRows(view.getNumberOfRows());
 	controller.setNumberOfColumns(view.getNumberOfColumns());

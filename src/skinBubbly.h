@@ -86,7 +86,7 @@ class skinBubbly: public Display{
 	    void drawTextEditor();
 	    void drawBattery(int leftTopCornerX, int leftTopCornerY, int p, string t);
 	    void show();
-	    void updateView(int i);
+	    void updateView();
 };
 
 #endif

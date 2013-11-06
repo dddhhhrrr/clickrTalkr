@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 
+//the view is in charge of all the outputs of the program, and is also a facade of several classes that create different types of output (display, talker, outputFile)
+
 #include "model.h"
 #include "display.h"
 #include "skinBubbly.h"
@@ -20,12 +22,15 @@ class View{
 			numberOfRows,
 			numberOfColumns,
 			currentBank,
-			numberOfBanks;
+			numberOfBanks,
+			focusedRow,
+			focusedColumn,
+			percentage;
 
 	public:
 		View(Model &m);
 		View(Model &m, Display &d);
-		int updateView(int i, int j);
+		int updateView();
 		~View();
 		
 		int getSelectedRow();
@@ -38,7 +43,11 @@ class View{
 		void setNumberOfColumns(int c);
 		int getCurrentBank();
 		void setCurrentBank(int b);
-		
+		void setPercentage(int p);
+		void setFocusedRow(int r);
+		int getFocusedRow();
+		void setFocusedColumn(int c);
+		int getFocusedColumn();
 
 };
 

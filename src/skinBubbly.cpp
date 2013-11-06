@@ -45,7 +45,6 @@ void skinBubbly::setNumberOfColumns(int c){
 
 void skinBubbly::setPercentage(int p){
 	percentage = p;
-	cout<<"skinBubbly.setPercentage()"<<endl;
 }
 
 VGfloat skinBubbly::getH2(){
@@ -214,13 +213,13 @@ void skinBubbly::drawBattery(int lbcX, int lbcY, int p, string t){
 	TextEnd(lbcX-3, lbcY+2, &percStr[0], HelveticaLight, 10); 
 }
 
-void skinBubbly::updateView(int i){
+void skinBubbly::updateView(){
 	drawBackground();
 	drawBattery(1118, height - 25, percentage, "clicker");
 	drawBattery(1218, height - 25, 100 - percentage, "talker");
 	drawVirtualKeyboard();
-	if (i == 1){ selectedRow = 2;}
-	else { selectedRow = -1;}
+	//if (i == 1){ selectedRow = 2;}
+	//else { selectedRow = -1;}
 	drawMenu();
 	drawEditor(40, height-180, 1200, 140, model.getPhraseToSay());
 	drawTextEditor();

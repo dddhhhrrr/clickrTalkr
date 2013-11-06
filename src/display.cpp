@@ -184,13 +184,12 @@ void Display::drawBattery(int lbcX, int lbcY, int p, string t){
 	TextEnd(lbcX-3, lbcY+2, &percStr[0], HelveticaLight, 10); 
 }
 
-void Display::updateView(int i){
+void Display::updateView(){
 	drawBackground();
 	drawBattery(1118, height - 25, percentage, "clicker");
 	drawBattery(1218, height - 25, 100 - percentage, "talker");
 	drawVirtualKeyboard();
-	if (i == 1){ selectedRow = 2;}
-	else { selectedRow = -1;}
+
 	drawMenu();
 	drawEditor(40,height-180, 1200,140,model.getPhraseToSay());
 	drawTextEditor();

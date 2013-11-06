@@ -1,3 +1,5 @@
+//controller is in charge of the inputs and the flow of the program, and is also a facade that simplifies access to the different classes that provide input to the system (at the moment clicker and letterController)
+
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
@@ -5,6 +7,8 @@
 #include "view.h"
 #include "clicker.h"
 #include "letterController.h"
+
+using namespace std;
 
 class Controller{
 	
@@ -22,6 +26,8 @@ class Controller{
 		    numberOfRows,
 		    numberOfColumns,
 		    numberOfBanks,
+		    focusedRow,
+		    focusedColumn,
 		    waitTime;
 		   
 		bool insideCurrentBank;
@@ -36,6 +42,10 @@ class Controller{
 		int getSelectedRow();
 		void setSelectedColumn(int c);
 		int getSelectedColumn();
+		void setFocusedRow(int r);
+		int getFocusedRow();
+		void setFocusedColumn(int c);
+		int getFocusedColumn();
 		int getNumberOfRows();
 		void setNumberOfRows(int r);
 		int getNumberOfColumns();
@@ -52,6 +62,10 @@ class Controller{
 		void addButtonToVector(string value, string type);
 		int waitForClickOrTimeout();
 		void mainLoop();
+		void focusNext();
+		bool selectCurrent();
+		void updateValues();
+		void resetValues();
 		~Controller();
 		
 };

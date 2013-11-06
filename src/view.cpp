@@ -7,9 +7,12 @@ View::View(Model &m):model(m),display(m){
 //View::View(Model &m, Display &d):model(m), display(d){
 //}
 
-int View::updateView(int i, int j){
-	display.setPercentage(i);
-	display.updateView(j);
+int View::updateView(){
+	display.setPercentage(percentage);
+	cout << "selectedRow: " << selectedRow << ", selectedColumn: " << selectedColumn << endl;
+	display.setSelectedRow(selectedRow);
+	display.setSelectedColumn(selectedColumn);
+	display.updateView();
 }
 
 View::~View(){
@@ -56,4 +59,25 @@ int View::getCurrentBank(){
 
 void View::setCurrentBank(int b){
 	currentBank = b;
+}
+
+void View::setFocusedRow(int r){
+	focusedRow = r;
+}
+
+int View::getFocusedRow(){
+	return focusedRow;
+}
+
+void View::setFocusedColumn(int c){
+	focusedColumn = c;
+}
+
+int View::getFocusedColumn(){
+	return focusedColumn;
+}
+
+void View::setPercentage(int p){
+	percentage = p;
+	display.setPercentage(p);
 }

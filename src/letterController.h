@@ -1,3 +1,5 @@
+//one object of this type exists per each letter in the model. this is used to perform an action depending on which letter was selected by the user
+
 #ifndef LETTER_CONTROLLER
 #define LETTER_CONTROLLER
 

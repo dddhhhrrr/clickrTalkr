@@ -38,12 +38,10 @@ int main() {
 	model.printLetters();
 	if (controller.getStatus()) cout << "pin = HIGH" << endl;
 	else cout << "pin = LOW" << endl;
-	for (int i = 100; i >= 0; i--){
-		//cout << controller.waitForClickOrTimeout() << endl;
-		//view.updateView(i,controller.getStatus());
-		view.updateView(i,controller.waitForClickOrTimeout());
-	}
-	system(fullText);
+	controller.mainLoop();
+
+	//system(fullText);
 	sleep(1);
     exit(0);
 }
+

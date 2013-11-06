@@ -3,7 +3,7 @@
 using namespace std;
 
 Model::Model(){
-	phraseToSay = "Diego Hoyos";
+	phraseToSay = "";
 	cout << "Model created!" <<endl;
 	}
 
