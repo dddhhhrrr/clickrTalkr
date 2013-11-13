@@ -8,9 +8,6 @@
 #include "controller.h"
 #include "configurator.h"
 
-#define NUMBER_OF_ROWS 5
-#define NUMBER_OF_COLUMNS 6
-
 using namespace std;
 
 int main() {
@@ -21,9 +18,13 @@ int main() {
 	string fullTextString;
 	char *fullText;
 	string value;
-	int pin;
-	int j = 3;
-	
+
+	/*******************************************************************
+	 *                                                                 *
+	 * 	                      Creation of Objects                      *
+	 *                                                                 *
+	 ******************************************************************/
+	 
 	Model model;
 	Model &modelReference = model; 
 	View view(modelReference);
@@ -31,12 +32,33 @@ int main() {
 	Controller controller(viewReference, modelReference);
 	Controller &controllerReference = controller;
 	Configurator configurator(modelReference, viewReference, controllerReference);
+	
+	/*******************************************************************
+	 *                                                                 *
+	 * 	                      Configuration of Objects                 *
+	 *                                                                 *
+	 ******************************************************************/
+	 
 	configurator.configureModel();
 	configurator.configureView();
 	configurator.configureController();
+	
+	/*******************************************************************
+	 *                                                                 *
+	 * 	         misc. tests (will NOT stay for final version)         *
+	 *                                                                 *
+	 ******************************************************************/	
+	
 	model.printLetters();
 	if (controller.getStatus()) cout << "pin = HIGH" << endl;
 	else cout << "pin = LOW" << endl;
+	
+	/*******************************************************************
+	 *                                                                 *
+	 *    The application will remain in controller.mainLoop()         *
+	 *    until controller.exit == true                                *
+	 *                                                                 *
+	 ******************************************************************/
 	controller.mainLoop();
 	text = model.getPhraseToSay();
 	fullTextString = prefix + text + suffix;

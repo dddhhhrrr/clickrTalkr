@@ -9,7 +9,6 @@ Display::Display(Model &m):model(m){
 int Display::getWidth(){
 	return width;
 }
-
 int Display::getHeight(){
 	return height;
 }
@@ -17,7 +16,6 @@ int Display::getHeight(){
 int Display::getSelectedRow(){
 	return selectedRow;
 }
-
 void Display::setSelectedRow(int r){
 	selectedRow = r;
 }
@@ -25,14 +23,13 @@ void Display::setSelectedRow(int r){
 int Display::getSelectedColumn(){
 	return selectedColumn;
 }
-
 void Display::setSelectedColumn(int c){
 	selectedColumn = c;
 }
+
 int Display::getNumberOfRows(){
 	return numberOfRows;
 }
-
 void Display::setNumberOfRows(int r){
 	numberOfRows = r;
 }
@@ -40,7 +37,6 @@ void Display::setNumberOfRows(int r){
 int Display::getNumberOfColumns(){
 	return numberOfColumns;
 }
-
 void Display::setNumberOfColumns(int c){
 	numberOfColumns = c;
 }
@@ -59,7 +55,7 @@ VGfloat Display::getW2(){
 
 void Display::drawBackground(){
 	StrokeWidth(0);
-    Background(52,52,52);
+    Background(0,0,0);
 }
 
 void Display::initialize(){
@@ -139,7 +135,6 @@ void Display::drawBattery(int lbcX, int lbcY, int p, string t){
 	ostringstream convert;
 	convert << t << " " << p << "%";
 	percStr = convert.str();
-	//char *pri = &percStr[0];
 	
 	switch(fullValue){
 		case 5: { red=0.0; grn=1.0; break; }
@@ -151,7 +146,6 @@ void Display::drawBattery(int lbcX, int lbcY, int p, string t){
 		default: {red=0.0; grn=1.0;}
 	}
 	
-		
 	VGfloat gradientFull[] = {
 		0.0, red, grn, 0.0, 1.0, //posicion, r,g, b ,a
 		1.0, red/4, grn/4, 0.0, 1.0
