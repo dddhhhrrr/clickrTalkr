@@ -16,10 +16,10 @@ using namespace std;
 int main() {
 	char a;
 	string prefix="espeak \"";
-	string text="Hi, thanks for using clickerTalker, this is a test";
+	string text;
 	string suffix="\"";
-	string fullTextString = prefix + text + suffix;
-	char *fullText = &fullTextString[0]; 
+	string fullTextString;
+	char *fullText;
 	string value;
 	int pin;
 	int j = 3;
@@ -34,14 +34,14 @@ int main() {
 	configurator.configureModel();
 	configurator.configureView();
 	configurator.configureController();
-	cout << "This is from the model.printLetters() Method!" << endl;
 	model.printLetters();
 	if (controller.getStatus()) cout << "pin = HIGH" << endl;
 	else cout << "pin = LOW" << endl;
 	controller.mainLoop();
-
-	//system(fullText);
-	sleep(1);
-    exit(0);
+	text = model.getPhraseToSay();
+	fullTextString = prefix + text + suffix;
+	fullText = &fullTextString[0];
+	system(fullText);
+	return 0;
 }
 

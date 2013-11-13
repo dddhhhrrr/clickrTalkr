@@ -30,7 +30,8 @@ class Controller{
 		    focusedColumn,
 		    waitTime;
 		   
-		bool insideCurrentBank;
+		bool insideCurrentBank,
+			 exit;
 	
 	public:
 		Controller(View &v, Model &m);

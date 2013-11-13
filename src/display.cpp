@@ -71,6 +71,7 @@ void Display::initialize(){
 	numberOfColumns = 6;
 	selectedRow = -1;
 	selectedColumn= -1;
+	currentBank = 2;
 	virtualKeyboardInitialX = 75;
 	virtualKeyboardInitialY = 515;
 	menuItemPosX = 800;
@@ -247,11 +248,20 @@ void Display::drawInactiveMenuItem(int x, int y, string t){
 }
 	
 void Display::drawMenu(){
-	drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
-	drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
-	drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
-	drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
-	drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Sleep");
+	if (currentBank == 3 && selectedColumn == -1){
+		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
+		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
+		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
+		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
+	}
+	else {
+		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
+		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
+		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
+		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
+	}
 }
 
 void Display::drawBatteryPercentage(int p){}

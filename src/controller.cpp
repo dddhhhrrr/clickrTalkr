@@ -12,7 +12,8 @@ Controller::Controller(View &v, Model &m):view(v),model(m)
 	selectedColumn = -1;
 	focusedRow = -1;
 	focusedColumn = -1;
-	waitTime = 1000;
+	waitTime = 500;
+	exit = false;
 	cout << "Controller created!" << endl;
 }
 
@@ -28,7 +29,6 @@ void Controller::wiringDelay(unsigned int ms){
 void Controller::setCurrentBank(int b){
 	currentBank = b;
 }
-
 int Controller::getCurrentBank(){
 	return currentBank;
 }
@@ -36,7 +36,6 @@ int Controller::getCurrentBank(){
 void Controller::setNumberOfBanks(int b){
 	numberOfBanks = b;
 }
-
 int Controller::getNumberOfBanks(){
 	return numberOfBanks;
 }
@@ -44,7 +43,6 @@ int Controller::getNumberOfBanks(){
 void Controller::setSelectedRow(int r){
 	selectedRow = r;
 }
-
 int Controller::getSelectedRow(){
 	return selectedRow;
 }
@@ -52,7 +50,6 @@ int Controller::getSelectedRow(){
 void Controller::setSelectedColumn(int c){
 	selectedColumn = c;
 }
-
 int Controller::getSelectedColumn(){
 	return selectedColumn;
 }
@@ -60,7 +57,6 @@ int Controller::getSelectedColumn(){
 void Controller::setNumberOfRows(int r){
 	numberOfRows = r;
 }
-
 int Controller::getNumberOfRows(){
 	return numberOfRows;
 } 
@@ -68,7 +64,6 @@ int Controller::getNumberOfRows(){
 void Controller::setNumberOfColumns(int c){
 	numberOfColumns = c;
 }
-
 int Controller::getNumberOfColumns(){
 	return numberOfColumns;
 }
@@ -76,7 +71,6 @@ int Controller::getNumberOfColumns(){
 void Controller::setFocusedRow(int r){
 	focusedRow = r;
 }
-
 int Controller::getFocusedRow(){
 	return focusedRow;
 }
@@ -84,7 +78,6 @@ int Controller::getFocusedRow(){
 void Controller::setFocusedColumn(int c){
 	focusedColumn = c;
 }
-
 int Controller::getFocusedColumn(){
 	return focusedColumn;
 }
@@ -92,7 +85,6 @@ int Controller::getFocusedColumn(){
 double Controller:: getWaitTimeInSeconds(){
 	return (double)waitTime/1000.0;
 }
-
 void Controller::setWaitTimeInSeconds(double t){
 	waitTime = (int)(t * 1000);
 }
@@ -100,7 +92,6 @@ void Controller::setWaitTimeInSeconds(double t){
 int Controller::getWaitTime(){
 	return waitTime;
 }
-
 void Controller::setWaitTime(int t){
 	waitTime = t;
 }
@@ -111,13 +102,13 @@ int Controller::waitForClickOrTimeout(){ //this method will return 1 when a risi
 	bool currentStatus;
 	while((millis()-prevTime) < waitTime) {
 		currentStatus = clicker.getStatus();
-		if (currentStatus){
+		if (currentStatus){					//return 1 if a rising edge is detected
 			if (!prevStatus){
 				prevStatus = currentStatus;
 				cout << "out = 1" << endl;
 				return 1;
 			}
-			else {
+			else {							//return a -1 when a high state is present
 				prevStatus = currentStatus;
 				cout << "out = -1" << endl;
 				return -1;
@@ -125,7 +116,7 @@ int Controller::waitForClickOrTimeout(){ //this method will return 1 when a risi
 		}
 		
 		else {
-			if (prevStatus){
+			if (prevStatus){				//return a 2 when a falling edge is detected
 				prevStatus = currentStatus;
 				cout << "out = 2" << endl;
 				return 2;
@@ -133,27 +124,28 @@ int Controller::waitForClickOrTimeout(){ //this method will return 1 when a risi
 		}
 	}
 	prevStatus = currentStatus;
-	return 0;
+	return 0;								//return a 0 when a low state is present
 }
 
 void Controller::mainLoop(){
 	int event;
-	for (int i = 100; i >= 0; i--){
-		if (currentBank == 2){
-			event = waitForClickOrTimeout();
-			switch (event){
-				case 0: { focusNext(); break; }
-				
-				case 1: { 
-					if (selectCurrent()){
-						 buttons[(selectedRow * numberOfColumns) + selectedColumn]->execute(); 
-						 resetValues();
-						 break;
-					}
+	while(!exit){
+		event = waitForClickOrTimeout();
+		switch (event){
+			case 0: { 
+				focusNext(); 
+				break; 
 				}
-			}		 
-		}
-	view.setPercentage(i);
+				
+			case 1: { 
+				if (selectCurrent()){
+					 buttons[(selectedRow * numberOfColumns) + selectedColumn]->execute(); 
+					 resetValues();
+					 break;
+				}
+			}
+		}		 	
+	view.setPercentage(65);
 	updateValues();
 	view.updateView();
 	}
@@ -168,13 +160,30 @@ void Controller::resetValues(){
 }
 	
 void Controller::focusNext(){
+	if (currentBank == 1){
+	}
+	
 	if (currentBank == 2){ //if I'm in the virtual keyboard
-		if (selectedRow == -1){
+		if (selectedRow == -1){ //and nothing has been selected
 			if (focusedRow < (numberOfRows - 1)) focusedRow++; //if I haven't reached the last row select the next row
-			else focusedRow = 0; //if I reached the last row go to the next bank;
+			else {
+				currentBank = 3; 
+				resetValues();
+			} //if I reached the last row go to the next bank;
 		}
-		else if (focusedColumn < (numberOfColumns - 1)) focusedColumn ++;
+		else if (focusedColumn < (numberOfColumns - 1)) focusedColumn ++; //if I have selected a row but not a column
 		else focusedColumn = 0;
+	}
+	
+	else if (currentBank == 3){
+		if (focusedRow == -1 && focusedColumn == -1){
+			currentBank = 2;
+			resetValues();
+		}
+	}
+	
+	if (currentBank == 4){
+		
 	}
 	cout << "focusNext()" << endl;
 }
@@ -182,16 +191,20 @@ void Controller::focusNext(){
 void Controller::updateValues(){
 	view.setSelectedRow(focusedRow);
 	view.setSelectedColumn(focusedColumn);
+	view.setCurrentBank(currentBank);
 }
 
 bool Controller::selectCurrent(){
-	if (selectedRow == -1) selectedRow = focusedRow;
-	else selectedColumn = focusedColumn; 
-	//view.setSelectedRow(selectedRow);
-	updateValues();
-	view.updateView();
-	if ( (selectedRow >= 0) && (selectedColumn >=0) ) return true;
-	cout << "selectCurrent()" << endl;
+	if (currentBank == 2){
+		if (selectedRow == -1) selectedRow = focusedRow;
+		else selectedColumn = focusedColumn; 
+		updateValues();
+		view.updateView();
+		if ( (selectedRow >= 0) && (selectedColumn >=0) ) return true;
+		cout << "selectCurrent()" << endl;
+		return false;
+	}
+	if (currentBank == 3) exit = true;
 	return false;
 }
 
@@ -208,7 +221,6 @@ void Controller::addButtonToVector(string value, string type){
 	buttons.push_back(buttonToAdd);
 	cout << "button added, array size: " << buttons.size() << endl; 
 }
-
 
 Controller::~Controller(){
 	cout << "Controller destroyed!" << endl;

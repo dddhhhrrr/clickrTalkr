@@ -9,9 +9,10 @@ View::View(Model &m):model(m),display(m){
 
 int View::updateView(){
 	display.setPercentage(percentage);
-	cout << "selectedRow: " << selectedRow << ", selectedColumn: " << selectedColumn << endl;
+	cout << "selectedRow: " << selectedRow << ", selectedColumn: " << selectedColumn << "currentBank: " << currentBank << endl;
 	display.setSelectedRow(selectedRow);
 	display.setSelectedColumn(selectedColumn);
+	display.currentBank = currentBank;
 	display.updateView();
 }
 

@@ -54,6 +54,8 @@ class Display{
 		Display(Model &m);
 		~Display();
 		
+		int currentBank;
+		
 		virtual void initialize();
 		virtual int getWidth();
 		virtual int getHeight();
