@@ -199,13 +199,13 @@ void Display::updateView(){
 
 
 void Display::drawSelector(){
-	if (true){
-		selectedColumn=-1;
+	if (selectedRow > -1){
 		StrokeWidth(10);
 		Stroke(0,192,255,1);
 		Fill(0,0,0,0);
 		if (currentBank == 2){
-			if (selectedColumn == -1) Roundrect(virtualKeyboardInitialX - buttonSizeX/2 - selectorOffset, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) - buttonSizeY/2 - selectorOffset, buttonOffsetX * (numberOfColumns - 1) + 2 * (selectorOffset) + buttonSizeX, buttonSizeY + selectorOffset*2, buttonSizeX + selectorOffset * 2, buttonSizeY + selectorOffset * 2);
+			if (selectedColumn == -1) Roundrect(virtualKeyboardInitialX - (double)buttonSizeX/2.0 - selectorOffset, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) - (double)buttonSizeY/2.0 - selectorOffset, buttonOffsetX * (numberOfColumns - 1) + 2 * (selectorOffset) + buttonSizeX, buttonSizeY + selectorOffset*2, buttonSizeX + selectorOffset * 2, buttonSizeY + selectorOffset * 2);
+			else Circle(virtualKeyboardInitialX + selectedColumn * buttonOffsetX, virtualKeyboardInitialY - selectedRow * buttonOffsetY, buttonSize + selectorOffset * 2);
 		}
 	}
 }
