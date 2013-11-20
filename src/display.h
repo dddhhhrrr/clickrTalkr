@@ -73,7 +73,7 @@ class Display{
 	    virtual void drawBackground();
 	    virtual void drawActiveButton(int x, int y, int diameter, string t);
 	    virtual void drawInactiveButton(int x, int y, int diameter, string t);
-	    virtual void drawSelector(int x, int y, int l);
+	    virtual void drawSelector();
 	    virtual void drawActiveSuggestion(int x,int y, string t);
 	    virtual void drawInactiveSuggestion(int x, int y, string t);
 	    virtual void drawSuggestions();

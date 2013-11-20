@@ -71,11 +71,12 @@ void Display::initialize(){
 	virtualKeyboardInitialX = 75;
 	virtualKeyboardInitialY = 515;
 	menuItemPosX = 800;
-	buttonSize = 75;
+	buttonSize = buttonSizeX = buttonSizeY = 75;
 	buttonOffsetX = 110;
 	buttonOffsetY = 110;
 	menuItemSizeX = 185;
 	menuItemSizeY = 75;
+	selectorOffset = 10;
 	HelveticaLight=loadfont(HelveticaLight_glyphPoints,
 	HelveticaLight_glyphPointIndices,
 	HelveticaLight_glyphInstructions,
@@ -95,15 +96,17 @@ void Display::drawActiveButton(int x, int y, int diameter, string t){
 
 	int fontsize;
 	
-	if (t.length() > 1) fontsize = 14;
-	else fontsize = 24;
+	fontsize = 24;
+	if (t.length() > 1){
+		while ( (TextWidth(&t[0], HelveticaLight, fontsize)) > ((double)diameter*0.85)) fontsize--;
+	}
 	
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
 	Fill(255,255,255,1);
 	Circle(x, y, diameter);
 	
-	Fill(52,52,52,1);
+	Fill(0,0,0,1);
 	TextMid(x, y-(fontsize/2), &t[0], HelveticaLight, fontsize);
 }
 
@@ -111,8 +114,10 @@ void Display::drawInactiveButton(int x, int y, int diameter, string t){
 	VGfloat radius = diameter/2;
 	int fontsize;
 	
-	if (t.length() > 1) fontsize = 14;
-	else fontsize = 24;
+	fontsize = 24;
+	if (t.length() > 1){
+		while ( (TextWidth(&t[0], HelveticaLight, fontsize)) > ((double)diameter*0.85)) fontsize--;
+	}
 	
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
@@ -188,11 +193,23 @@ void Display::updateView(){
 	drawMenu();
 	drawEditor(40,height-180, 1200,140,model.getPhraseToSay());
 	drawTextEditor();
+	drawSelector();
 	show();
 }
 
 
-void Display::drawSelector(int x, int y, int l){}
+void Display::drawSelector(){
+	if (true){
+		selectedColumn=-1;
+		StrokeWidth(10);
+		Stroke(0,192,255,1);
+		Fill(0,0,0,0);
+		if (currentBank == 2){
+			if (selectedColumn == -1) Roundrect(virtualKeyboardInitialX - buttonSizeX/2 - selectorOffset, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) - buttonSizeY/2 - selectorOffset, buttonOffsetX * (numberOfColumns - 1) + 2 * (selectorOffset) + buttonSizeX, buttonSizeY + selectorOffset*2, buttonSizeX + selectorOffset * 2, buttonSizeY + selectorOffset * 2);
+		}
+	}
+}
+
 void Display::drawActiveSuggestion(int x,int y, string t){}
 void Display::drawInactiveSuggestion(int x, int y, string t){}
 void Display::drawSuggestions(){}

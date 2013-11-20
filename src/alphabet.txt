@@ -9,7 +9,7 @@ C,c,l
 D,d,l
 F,f,l
 G,g,l
-Say it,x,a
+Backspace,x,a
 H,h,l
 J,j,l
 K,k,l
