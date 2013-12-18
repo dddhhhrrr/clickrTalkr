@@ -5,7 +5,7 @@
 /*   from setting.txt, MUST CHANGE THAT											  */
 Controller::Controller(View &v, Model &m):view(v),model(m)
 {
-	currentBank = 2;
+	currentBank = -1;
 	numberOfBanks = 4;
 	numberOfRows = 5;
 	numberOfColumns = 6;
@@ -158,7 +158,13 @@ void Controller::mainLoop(){
 				
 			case 1: { 
 				if (selectCurrent()){ //selectCurrent will return true when an element has been selected
-					 buttons[(selectedRow * numberOfColumns) + selectedColumn]->execute(); //execute the action associated to that element of the GUI
+					 switch(currentBank){
+						 case 0: {break; }
+						 case 1: {break;}//execute the action associated to that element of the GUI
+						 case 2: {buttons[(selectedRow * numberOfColumns) + selectedColumn]->execute(); break;}
+						 case 3: {break;}
+						 case 4: {break;}
+					 }
 					 resetValues(); //values are reset to run a new iteration
 					 break;
 				}
@@ -175,6 +181,7 @@ void Controller::resetValues(){
 	selectedColumn = -1;
 	focusedRow = -1;
 	focusedColumn = -1;
+	//currentBank = 0;
 	updateValues();
 }
 
@@ -182,10 +189,15 @@ void Controller::resetValues(){
 //the next bank if the end of the current selection bank is reached
 //THIS IS STILL UNDER CONSTRUCTION	
 void Controller::focusNext(){
-	if (currentBank == 1){ //if I'm in the suggestions selection bank
+	if (currentBank == 0) {
+		focusedRow = 0;
+		currentBank = 2;
+		
+	}
+	else if (currentBank == 1){ currentBank = 2;//if I'm in the suggestions selection bank
 	}
 	
-	if (currentBank == 2){ //if I'm in the virtual keyboard
+	else if (currentBank == 2){ //if I'm in the virtual keyboard
 		if (selectedRow == -1){ //and nothing has been selected
 			if (focusedRow < (numberOfRows - 1)) focusedRow++; //and I haven't reached the last row select the next row add one to the focused row
 			else { //if I reached the end of the virtual keyboard
@@ -198,14 +210,18 @@ void Controller::focusNext(){
 	}
 	
 	else if (currentBank == 3){ //if I'm in the menu items selection bank
-		if (focusedRow == -1 && focusedColumn == -1){ //and nothing has been selected
-			currentBank = 2; //go to the virtual keyboard again
-			resetValues();
+		if (selectedColumn < 0){ //and nothing has been selected
+		currentBank=4; //go to the virtual keyboard again
+		resetValues();
 		}
 	}
 	
-	if (currentBank == 4){ //if I'm in the text editor selection bank
-		
+	else if (currentBank == 4){ //if I'm in the text editor selection bank
+		currentBank++;
+	}
+	else {
+		currentBank=0;
+		resetValues();
 	}
 	cout << "focusNext()" << endl; //for debugging purposes
 }
@@ -223,7 +239,7 @@ bool Controller::selectCurrent(){
 		cout << "selectCurrent()" << endl;
 		return false;
 	}
-	if (currentBank == 3) exit = true;
+	if (currentBank == 0) exit = true;
 	return false;
 }
 

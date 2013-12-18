@@ -11,7 +11,7 @@ Clicker::Clicker(){
 	cout << "Clicker created!" << endl;
 	wiringPiSetup();
 	pinMode(clickerPin,INPUT);
-	pullUpDnControl(clickerPin,PUD_OFF);
+	pullUpDnControl(clickerPin,PUD_UP);
 	pinMode(LED_PIN,OUTPUT);
 	digitalWrite(LED_PIN,LOW);
 	isActiveLow(true);

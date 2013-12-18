@@ -76,7 +76,7 @@ void Display::initialize(){
 	buttonOffsetY = 110;
 	menuItemSizeX = 185;
 	menuItemSizeY = 75;
-	selectorOffset = 10;
+	selectorOffset = 15;
 	HelveticaLight=loadfont(HelveticaLight_glyphPoints,
 	HelveticaLight_glyphPointIndices,
 	HelveticaLight_glyphInstructions,
@@ -121,7 +121,7 @@ void Display::drawInactiveButton(int x, int y, int diameter, string t){
 	
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
-	Fill(52,52,52,0);
+	Fill(255,255,255,0.15);
 	Circle(x, y, diameter);
 	
 	Fill(255,255,255,1);
@@ -188,26 +188,62 @@ void Display::updateView(){
 	drawBackground();
 	drawBattery(1118, height - 25, percentage, "clicker");
 	drawBattery(1218, height - 25, 100 - percentage, "talker");
+	drawSelector();
 	drawVirtualKeyboard();
 
 	drawMenu();
 	drawEditor(40,height-180, 1200,140,model.getPhraseToSay());
 	drawTextEditor();
-	drawSelector();
+	
 	show();
 }
 
 
 void Display::drawSelector(){
-	if (selectedRow > -1){
-		StrokeWidth(10);
-		Stroke(0,192,255,1);
-		Fill(0,0,0,0);
-		if (currentBank == 2){
-			if (selectedColumn == -1) Roundrect(virtualKeyboardInitialX - (double)buttonSizeX/2.0 - selectorOffset, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) - (double)buttonSizeY/2.0 - selectorOffset, buttonOffsetX * (numberOfColumns - 1) + 2 * (selectorOffset) + buttonSizeX, buttonSizeY + selectorOffset*2, buttonSizeX + selectorOffset * 2, buttonSizeY + selectorOffset * 2);
+	
+	VGfloat selectorGradient[] = {
+		0.0, 0.1, 0.28, 0.59, 1.0, //posicion, r,g, b ,a
+		1.0, 0, 0.5, 1.0, 1.0
+	};
+	
+	
+/*	VGfloat selectorGradient[] = {
+		 //posicion, r,g, b ,a
+		0.0, 1, 1, 1, 1.0,
+		1.0, 0, 0, 0, 1.0
+	};*/
+	
+	
+	StrokeWidth(0);
+	//Stroke(0,192,255,1);
+	//Fill(0,0,0,0);
+	
+	if (currentBank == 0){
+		FillLinearGradient(w2, height - 180, w2, height - 40, selectorGradient, 2);
+		Roundrect(40,height-180, 1200,140, 50, 50);
+	}
+	else if (currentBank == 2){
+		if (selectedRow > -1){
+			FillLinearGradient(w2, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) - (double)buttonSizeY/2.0 - selectorOffset, w2, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) + (double)buttonSizeY/2.0 + selectorOffset, selectorGradient, 2);
+			if (selectedColumn == -1) {
+				Roundrect(virtualKeyboardInitialX - (double)buttonSizeX/2.0 - selectorOffset, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) - (double)buttonSizeY/2.0 - selectorOffset, buttonOffsetX * (numberOfColumns - 1) + 2 * (selectorOffset) + buttonSizeX, buttonSizeY + selectorOffset*2, buttonSizeX + selectorOffset * 2, buttonSizeY + selectorOffset * 2);
+			}
 			else Circle(virtualKeyboardInitialX + selectedColumn * buttonOffsetX, virtualKeyboardInitialY - selectedRow * buttonOffsetY, buttonSize + selectorOffset * 2);
 		}
 	}
+	else if (currentBank == 3){
+		if (selectedColumn < 0){
+			Stroke(255,255,255,1);
+			Fill(0,0,255,1);
+			FillLinearGradient(w2, virtualKeyboardInitialY-buttonOffsetY*(numberOfRows) - buttonSizeY/2, w2, virtualKeyboardInitialY + (buttonOffsetY +menuItemSizeY + selectorOffset), selectorGradient, 2);
+			
+			Roundrect(menuItemPosX - (menuItemSizeX/2) - selectorOffset, virtualKeyboardInitialY-buttonOffsetY*(numberOfRows-1) - buttonSizeY/2 - selectorOffset, menuItemSizeX + selectorOffset * 2, (buttonOffsetY*(numberOfRows - 1)) +menuItemSizeY + selectorOffset * 2, menuItemSizeY + selectorOffset * 2, menuItemSizeY + selectorOffset * 2);
+
+		}
+	}
+	
+	else if (currentBank == 4){}
+		
 }
 
 void Display::drawActiveSuggestion(int x,int y, string t){}
@@ -251,7 +287,7 @@ void Display::drawInactiveMenuItem(int x, int y, string t){
 
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
-	Fill(0,0,0,0);
+	Fill(255,255,255,.15);
 	Roundrect(x - (menuItemSizeX/2), y - (menuItemSizeY/2), menuItemSizeX,  menuItemSizeY, menuItemSizeY, menuItemSizeY);
 	
 	Fill(255,255,255,1);
