@@ -69,7 +69,7 @@ class skinBubbly: public Display{
 	    void drawBackground();
 	    void drawActiveButton(int x, int y, int diameter, string t);
 	    void drawInactiveButton(int x, int y, int diameter, string t);
-	    void drawSelector(int x, int y, int l);
+	    void drawSelector();
 	    void drawActiveSuggestion(int x,int y, string t);
 	    void drawInactiveSuggestion(int x, int y, string t);
 	    void drawSuggestions();

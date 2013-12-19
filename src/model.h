@@ -20,6 +20,7 @@ class Model{
 		void setCurrentWord(string w);
 		string getPhraseToSay();
 		void setPhraseToSay(string ph);
+		void backspace();
 		void addLetterToPhraseToSay(string l);
 		void clearCurrentWord();
 		void clearPhraseToSay();

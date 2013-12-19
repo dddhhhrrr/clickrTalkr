@@ -13,6 +13,7 @@ LetterController::~LetterController(){
 }
 
 void LetterController::execute(){
-	model.addLetterToPhraseToSay(value);
+	if (value == "~") model.backspace();
+	else model.addLetterToPhraseToSay(value);
 }	
 

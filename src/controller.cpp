@@ -159,7 +159,7 @@ void Controller::mainLoop(){
 			case 1: { 
 				if (selectCurrent()){ //selectCurrent will return true when an element has been selected
 					 switch(currentBank){
-						 case 0: {break; }
+						 case 0: {break;}
 						 case 1: {break;}//execute the action associated to that element of the GUI
 						 case 2: {buttons[(selectedRow * numberOfColumns) + selectedColumn]->execute(); break;}
 						 case 3: {break;}
@@ -181,7 +181,6 @@ void Controller::resetValues(){
 	selectedColumn = -1;
 	focusedRow = -1;
 	focusedColumn = -1;
-	//currentBank = 0;
 	updateValues();
 }
 
@@ -191,8 +190,7 @@ void Controller::resetValues(){
 void Controller::focusNext(){
 	if (currentBank == 0) {
 		focusedRow = 0;
-		currentBank = 2;
-		
+		currentBank = 2;	
 	}
 	else if (currentBank == 1){ currentBank = 2;//if I'm in the suggestions selection bank
 	}
@@ -210,9 +208,13 @@ void Controller::focusNext(){
 	}
 	
 	else if (currentBank == 3){ //if I'm in the menu items selection bank
-		if (selectedColumn < 0){ //and nothing has been selected
-		currentBank=4; //go to the virtual keyboard again
+		if (selectedColumn == -1){ //and nothing has been selected
+		currentBank=0; //go to the virtual keyboard again
 		resetValues();
+		}
+		else {
+			if (focusedRow < (numberOfRows - 1)) focusedRow++;
+			else focusedRow = 0;
 		}
 	}
 	
@@ -223,6 +225,7 @@ void Controller::focusNext(){
 		currentBank=0;
 		resetValues();
 	}
+	view.setCurrentBank(currentBank);
 	cout << "focusNext()" << endl; //for debugging purposes
 }
 
@@ -239,7 +242,21 @@ bool Controller::selectCurrent(){
 		cout << "selectCurrent()" << endl;
 		return false;
 	}
-	if (currentBank == 0) exit = true;
+	
+	else if (currentBank == 3){
+		if (selectedColumn == -1) {selectedColumn = 1; focusedColumn = 1;}
+		else selectedRow = focusedRow;
+		if (selectedRow == 4) exit = 1;
+		updateValues();
+		view.updateView();
+		if ( (selectedRow >=0) && (selectedColumn >=0) ) return true;
+		return false;
+	}
+	else if (currentBank == 0) {
+		view.sayPhrase(model.getPhraseToSay());
+		model.setPhraseToSay("");
+	}
+	else currentBank = 0;
 	return false;
 }
 
@@ -261,6 +278,10 @@ void Controller::addButtonToVector(string value, string type){
 	LetterController *buttonToAdd = new LetterController(model,value,type);
 	buttons.push_back(buttonToAdd);
 	cout << "button added, array size: " << buttons.size() << endl; 
+}
+
+void Controller::turnOffLED(){
+	clicker.turnOffLED();
 }
 
 Controller::~Controller(){

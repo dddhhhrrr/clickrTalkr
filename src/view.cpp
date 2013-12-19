@@ -1,11 +1,8 @@
 #include "view.h"
 
-View::View(Model &m):model(m),display(m){
+View::View(Model &m):model(m),display(m),talker("eSpeak"){
 	cout << "View created!" << endl;
 }
-
-//View::View(Model &m, Display &d):model(m), display(d){
-//}
 
 int View::updateView(){
 	display.setPercentage(percentage);
@@ -18,6 +15,10 @@ int View::updateView(){
 
 View::~View(){
 	cout << "View destroyed!" << endl;
+}
+
+void View::sayPhrase(string p){
+	talker.sayPhrase(p);
 }
 
 int View::getSelectedRow(){
@@ -60,6 +61,7 @@ int View::getCurrentBank(){
 
 void View::setCurrentBank(int b){
 	currentBank = b;
+	display.currentBank = currentBank;
 }
 
 void View::setFocusedRow(int r){

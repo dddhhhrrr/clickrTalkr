@@ -206,18 +206,8 @@ void Display::drawSelector(){
 		1.0, 0, 0.5, 1.0, 1.0
 	};
 	
-	
-/*	VGfloat selectorGradient[] = {
-		 //posicion, r,g, b ,a
-		0.0, 1, 1, 1, 1.0,
-		1.0, 0, 0, 0, 1.0
-	};*/
-	
-	
 	StrokeWidth(0);
-	//Stroke(0,192,255,1);
-	//Fill(0,0,0,0);
-	
+
 	if (currentBank == 0){
 		FillLinearGradient(w2, height - 180, w2, height - 40, selectorGradient, 2);
 		Roundrect(40,height-180, 1200,140, 50, 50);
@@ -233,12 +223,12 @@ void Display::drawSelector(){
 	}
 	else if (currentBank == 3){
 		if (selectedColumn < 0){
-			Stroke(255,255,255,1);
-			Fill(0,0,255,1);
 			FillLinearGradient(w2, virtualKeyboardInitialY-buttonOffsetY*(numberOfRows) - buttonSizeY/2, w2, virtualKeyboardInitialY + (buttonOffsetY +menuItemSizeY + selectorOffset), selectorGradient, 2);
-			
 			Roundrect(menuItemPosX - (menuItemSizeX/2) - selectorOffset, virtualKeyboardInitialY-buttonOffsetY*(numberOfRows-1) - buttonSizeY/2 - selectorOffset, menuItemSizeX + selectorOffset * 2, (buttonOffsetY*(numberOfRows - 1)) +menuItemSizeY + selectorOffset * 2, menuItemSizeY + selectorOffset * 2, menuItemSizeY + selectorOffset * 2);
-
+		}
+		else if (selectedRow >= 0){
+			FillLinearGradient(w2, (virtualKeyboardInitialY + menuItemSizeY/2 + selectorOffset) - (buttonOffsetY * selectedRow)-(menuItemSizeY + selectorOffset*2), w2, (virtualKeyboardInitialY - menuItemSizeY/2 - selectorOffset) - (buttonOffsetY * selectedRow), selectorGradient, 2);
+			Roundrect(menuItemPosX - (menuItemSizeX/2) - selectorOffset, (virtualKeyboardInitialY - menuItemSizeY/2 - selectorOffset) - (buttonOffsetY * selectedRow), menuItemSizeX + selectorOffset*2, menuItemSizeY + selectorOffset*2, menuItemSizeY + selectorOffset * 2,menuItemSizeY + selectorOffset * 2);
 		}
 	}
 	
@@ -254,7 +244,7 @@ void Display::drawEditor(int x1, int y1, int w, int h, string t){
 	int fontSize = 24;
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
-	Fill(0,0,0,0);
+	Fill(255,255,255,.15);
 	Roundrect(x1,y1, w, h, 50,50);
 	Fill(255,255,255,1);
 	Text((x1+20), y1 + h/2 - fontSize/2, &t[0], HelveticaLight, fontSize);
@@ -264,7 +254,7 @@ void Display::drawVirtualKeyboard(){
 	for (int j = 0; j < numberOfRows; j++){
 		for (int i=0; i < numberOfColumns; i++){
 			if (i+j*numberOfColumns < model.getAlphabetSize()){
-				if (selectedRow == j && (selectedColumn == i || selectedColumn == -1)) drawActiveButton(virtualKeyboardInitialX + (buttonOffsetX * i), virtualKeyboardInitialY - (buttonOffsetY * j), buttonSize, model.getLetterAtIndex(i+j*numberOfColumns)->getLetterToDisplay());
+				if ((selectedRow == j && (selectedColumn == i || selectedColumn == -1)) && currentBank == 2) drawActiveButton(virtualKeyboardInitialX + (buttonOffsetX * i), virtualKeyboardInitialY - (buttonOffsetY * j), buttonSize, model.getLetterAtIndex(i+j*numberOfColumns)->getLetterToDisplay());
 				else  drawInactiveButton(virtualKeyboardInitialX + (buttonOffsetX * i), virtualKeyboardInitialY - (buttonOffsetY * j), buttonSize, model.getLetterAtIndex(i+j*numberOfColumns)->getLetterToDisplay());
 			}
 		}
@@ -295,20 +285,29 @@ void Display::drawInactiveMenuItem(int x, int y, string t){
 }
 	
 void Display::drawMenu(){
-	if (currentBank == 3 && selectedColumn == -1){
-		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
-		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
-		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
-		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
-		drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
+	if (currentBank == 3){
+		if (selectedColumn == -1){
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
+		}
+		else {
+			if (selectedRow == 0) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings"); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
+			if (selectedRow == 1) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File..."); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
+			if (selectedRow == 2) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File..."); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+			if (selectedRow == 3) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help"); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
+			if (selectedRow == 4) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit"); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
+		}
 	}
 	else {
-		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
-		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
-		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
-		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
-		drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
-	}
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
+		}
 }
 
 void Display::drawBatteryPercentage(int p){}
@@ -319,7 +318,7 @@ void Display::drawBattery(double val){}
 
 void Display::drawTextEditor(){
 	Stroke(255,255,255,1);
-	Fill(0,0,0,0);
+	Fill(255,255,255,.15);
 	Rect(940,35,300,520);
 }
 

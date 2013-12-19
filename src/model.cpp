@@ -24,6 +24,11 @@ int Model::getAlphabetSize(){
 	return alphabet.size();
 }
 
+void Model::backspace(){
+	if (phraseToSay.size() > 0)
+	phraseToSay = phraseToSay.substr(0, phraseToSay.size()-1);
+}
+
 Letter* Model::getLetterAtIndex(int x){
 	return alphabet[x];
 }

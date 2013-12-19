@@ -9,6 +9,7 @@
 
 #include "model.h"
 #include "display.h"
+#include "talker.h"
 #include "skinBubbly.h"
 
 
@@ -16,6 +17,7 @@ class View{
 	private:
 		Model &model;
 		Display display;
+		Talker talker;
 		
 		int selectedRow,
 			selectedColumn,
@@ -31,6 +33,7 @@ class View{
 		View(Model &m);
 		View(Model &m, Display &d);
 		int updateView();
+		void sayPhrase(string p);
 		~View();
 		
 		int getSelectedRow();

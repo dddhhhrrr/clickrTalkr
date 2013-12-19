@@ -67,6 +67,7 @@ class Controller{
 		bool selectCurrent();
 		void updateValues();
 		void resetValues();
+		void turnOffLED();
 		~Controller();
 		
 };

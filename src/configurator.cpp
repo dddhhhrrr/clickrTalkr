@@ -4,6 +4,9 @@ using namespace std;
 
 Configurator::Configurator(Model &m, View &v, Controller &c):model(m), view(v), controller(c){
 	cout << "Configurator created!" << endl;
+	configureModel();
+	configureView();
+	configureController();
 }
 
 Configurator::~Configurator(){

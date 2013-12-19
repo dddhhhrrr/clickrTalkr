@@ -69,14 +69,16 @@ void skinBubbly::initialize(){
 	numberOfColumns = 6;
 	selectedRow = -1;
 	selectedColumn= -1;
+	currentBank = 2;
 	virtualKeyboardInitialX = 75;
 	virtualKeyboardInitialY = 515;
 	menuItemPosX = 800;
-	buttonSize = 75;
+	buttonSize = buttonSizeX = buttonSizeY = 75;
 	buttonOffsetX = 110;
 	buttonOffsetY = 110;
 	menuItemSizeX = 185;
 	menuItemSizeY = 75;
+	selectorOffset = 15;
 	HelveticaLight=loadfont(HelveticaLight_glyphPoints,
 	HelveticaLight_glyphPointIndices,
 	HelveticaLight_glyphInstructions,
@@ -107,8 +109,10 @@ void skinBubbly::drawActiveButton(int x, int y, int diameter, string t){
 		1.0, 1.0, 1.0, 1.0, 0.0
 	};
 	
-	if (t.length() > 1) fontsize = 14;
-	else fontsize = 24;
+	fontsize = 24;
+	if (t.length() > 1){
+		while ( (TextWidth(&t[0], HelveticaLight, fontsize)) > ((double)diameter*0.85)) fontsize--;
+	}
 	
 	FillLinearGradient(x, y+radius+1, x, y-radius-1, stops, 2);
 	StrokeWidth(0);
@@ -139,8 +143,10 @@ void skinBubbly::drawInactiveButton(int x, int y, int diameter, string t){
 		1.0, 1.0, 1.0, 1.0, 0.0
 	};
 	
-	if (t.length() > 1) fontsize = 14;
-	else fontsize = 24;
+	fontsize = 24;
+	if (t.length() > 1){
+		while ( (TextWidth(&t[0], HelveticaLight, fontsize)) > ((double)diameter*0.85)) fontsize--;
+	}
 	
 	FillLinearGradient(x, y+radius+1, x, y-radius-1, stops, 2);
 	StrokeWidth(0);
@@ -218,15 +224,49 @@ void skinBubbly::updateView(){
 	drawBattery(1118, height - 25, percentage, "clicker");
 	drawBattery(1218, height - 25, 100 - percentage, "talker");
 	drawVirtualKeyboard();
-	//if (i == 1){ selectedRow = 2;}
-	//else { selectedRow = -1;}
 	drawMenu();
 	drawEditor(40, height-180, 1200, 140, model.getPhraseToSay());
 	drawTextEditor();
 	show();	
 }
 
-void skinBubbly::drawSelector(int x, int y, int l){}
+void skinBubbly::drawSelector(){
+	
+	VGfloat selectorGradient[] = {
+		0.0, 0.1, 0.28, 0.59, 1.0, //posicion, r,g, b ,a
+		1.0, 0, 0.5, 1.0, 1.0
+	};
+	
+	StrokeWidth(0);
+
+	if (currentBank == 0){
+		FillLinearGradient(w2, height - 180, w2, height - 40, selectorGradient, 2);
+		Roundrect(40,height-180, 1200,140, 50, 50);
+	}
+	else if (currentBank == 2){
+		if (selectedRow > -1){
+			FillLinearGradient(w2, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) - (double)buttonSizeY/2.0 - selectorOffset, w2, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) + (double)buttonSizeY/2.0 + selectorOffset, selectorGradient, 2);
+			if (selectedColumn == -1) {
+				Roundrect(virtualKeyboardInitialX - (double)buttonSizeX/2.0 - selectorOffset, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) - (double)buttonSizeY/2.0 - selectorOffset, buttonOffsetX * (numberOfColumns - 1) + 2 * (selectorOffset) + buttonSizeX, buttonSizeY + selectorOffset*2, buttonSizeX + selectorOffset * 2, buttonSizeY + selectorOffset * 2);
+			}
+			else Circle(virtualKeyboardInitialX + selectedColumn * buttonOffsetX, virtualKeyboardInitialY - selectedRow * buttonOffsetY, buttonSize + selectorOffset * 2);
+		}
+	}
+	else if (currentBank == 3){
+		if (selectedColumn < 0){
+			FillLinearGradient(w2, virtualKeyboardInitialY-buttonOffsetY*(numberOfRows) - buttonSizeY/2, w2, virtualKeyboardInitialY + (buttonOffsetY +menuItemSizeY + selectorOffset), selectorGradient, 2);
+			Roundrect(menuItemPosX - (menuItemSizeX/2) - selectorOffset, virtualKeyboardInitialY-buttonOffsetY*(numberOfRows-1) - buttonSizeY/2 - selectorOffset, menuItemSizeX + selectorOffset * 2, (buttonOffsetY*(numberOfRows - 1)) +menuItemSizeY + selectorOffset * 2, menuItemSizeY + selectorOffset * 2, menuItemSizeY + selectorOffset * 2);
+		}
+		else if (selectedRow >= 0){
+			FillLinearGradient(w2, (virtualKeyboardInitialY + menuItemSizeY/2 + selectorOffset) - (buttonOffsetY * selectedRow)-(menuItemSizeY + selectorOffset*2), w2, (virtualKeyboardInitialY - menuItemSizeY/2 - selectorOffset) - (buttonOffsetY * selectedRow), selectorGradient, 2);
+			Roundrect(menuItemPosX - (menuItemSizeX/2) - selectorOffset, (virtualKeyboardInitialY - menuItemSizeY/2 - selectorOffset) - (buttonOffsetY * selectedRow), menuItemSizeX + selectorOffset*2, menuItemSizeY + selectorOffset*2, menuItemSizeY + selectorOffset * 2,menuItemSizeY + selectorOffset * 2);
+		}
+	}
+	
+	else if (currentBank == 4){}
+		
+}
+
 void skinBubbly::drawActiveSuggestion(int x,int y, string t){}
 void skinBubbly::drawInactiveSuggestion(int x, int y, string t){}
 void skinBubbly::drawSuggestions(){}
@@ -304,11 +344,29 @@ void skinBubbly::drawInactiveMenuItem(int x, int y, string t){
 }
 	
 void skinBubbly::drawMenu(){
-	drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
-	drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
-	drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
-	drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
-	drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Sleep");
+	if (currentBank == 3){
+		if (selectedColumn == -1){
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
+			drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
+		}
+		else {
+			if (selectedRow == 0) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings"); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
+			if (selectedRow == 1) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File..."); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
+			if (selectedRow == 2) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File..."); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+			if (selectedRow == 3) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help"); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
+			if (selectedRow == 4) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit"); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
+		}
+	}
+	else {
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
+		}
 }
 
 void skinBubbly::drawBatteryPercentage(int p){}
@@ -319,7 +377,7 @@ void skinBubbly::drawBattery(double val){}
 
 void skinBubbly::drawTextEditor(){
 	Stroke(255,255,255,1);
-	Fill(0,0,0,0);
+	Fill(255,255,255,.15);
 	Rect(940,35,300,520);
 }
 

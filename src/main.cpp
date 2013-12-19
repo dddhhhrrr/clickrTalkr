@@ -7,16 +7,12 @@
 #include "view.h"
 #include "controller.h"
 #include "configurator.h"
+#include "talker.h"
 
 using namespace std;
 
 int main() {
 	char a;
-	string prefix="espeak \"";
-	string text;
-	string suffix="\"";
-	string fullTextString;
-	char *fullText;
 	string value;
 
 	/*******************************************************************
@@ -24,7 +20,7 @@ int main() {
 	 * 	                      Creation of Objects                      *
 	 *                                                                 *
 	 ******************************************************************/
-	 
+
 	Model model;
 	Model &modelReference = model; 
 	View view(modelReference);
@@ -35,23 +31,11 @@ int main() {
 	
 	/*******************************************************************
 	 *                                                                 *
-	 * 	                      Configuration of Objects                 *
-	 *                                                                 *
-	 ******************************************************************/
-	 
-	configurator.configureModel();
-	configurator.configureView();
-	configurator.configureController();
-	
-	/*******************************************************************
-	 *                                                                 *
 	 * 	         misc. tests (will NOT stay for final version)         *
 	 *                                                                 *
 	 ******************************************************************/	
 	
 	model.printLetters();
-	if (controller.getStatus()) cout << "pin = HIGH" << endl;
-	else cout << "pin = LOW" << endl;
 	
 	/*******************************************************************
 	 *                                                                 *
@@ -60,10 +44,7 @@ int main() {
 	 *                                                                 *
 	 ******************************************************************/
 	controller.mainLoop();
-	text = model.getPhraseToSay();
-	fullTextString = prefix + text + suffix;
-	fullText = &fullTextString[0];
-	system(fullText);
+	controller.turnOffLED();
 	return 0;
 }
 
