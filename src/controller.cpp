@@ -14,7 +14,7 @@ Controller::Controller(View &v, Model &m):view(v),model(m)
 	selectedColumn = -1;
 	focusedRow = -1;
 	focusedColumn = -1;
-	waitTime = 500;
+	//waitTime = 500;
 	exit = false;
 	cout << "Controller created!" << endl;
 }

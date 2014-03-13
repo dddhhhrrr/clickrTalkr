@@ -26,6 +26,8 @@ class Model{
 		void clearPhraseToSay();
 		void loadLetters();
 		void addLetterToAlphabet(string d, string v, string t);
+		void addLetterToCurrentWord(string l);
+		void updateCurrentWord(string l);
 		void printLetters();
 		int getAlphabetSize();
 		Letter* getLetterAtIndex(int x);

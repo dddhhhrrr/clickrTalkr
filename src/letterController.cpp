@@ -14,6 +14,9 @@ LetterController::~LetterController(){
 
 void LetterController::execute(){
 	if (value == "~") model.backspace();
-	else model.addLetterToPhraseToSay(value);
+	else {
+		model.addLetterToPhraseToSay(value);
+	}
+	model.updateCurrentWord(value);
 }	
 

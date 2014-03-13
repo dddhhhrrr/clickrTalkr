@@ -53,6 +53,23 @@ void Model::addLetterToPhraseToSay(string l){
 	phraseToSay.append(l);
 }
 
+void Model::addLetterToCurrentWord(string l){
+		currentWord.append(l);
+}
+
+void Model::updateCurrentWord(string l){
+	char letterToTest = (char)l[0];
+	if ( (letterToTest >= 'a' && letterToTest <= 'z') || (letterToTest >= 'A' && letterToTest <= 'Z') ){
+		currentWord.append(l);
+	}
+	else if (l == "~"){
+		if (currentWord.size() > 0)
+		currentWord = currentWord.substr(0, currentWord.size()-1);
+	}
+	else clearCurrentWord();
+	cout << "\tcurrent word: " <<currentWord << endl;
+}
+
 void Model::clearCurrentWord(){
 	currentWord = "";
 }

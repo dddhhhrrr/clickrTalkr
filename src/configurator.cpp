@@ -47,6 +47,7 @@ int Configurator::configureView(){
 			parseConfigurationLine(attribute, value, line);
 			if (attribute == "number of rows") view.setNumberOfRows(atoi(&value[0]));
 			if (attribute == "number of columns") view.setNumberOfColumns(atoi(&value[0]));
+			if (attribute == "wait time") controller.setWaitTime(atoi(&value[0]));
 			if (attribute == "skin") {}//view.doSomething();
 		}
 		cout << "View configured!" << endl;
