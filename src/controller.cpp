@@ -121,12 +121,12 @@ int Controller::waitForClickOrTimeout(){
 		if (currentStatus){	//return 1 if a rising edge is detected (!prevStatus && currentStatus)
 			if (!prevStatus){
 				prevStatus = currentStatus;
-				cout << "out = 1" << endl;
+//				cout << "out = 1" << endl;
 				return 1;
 			}
 			else {
 				prevStatus = currentStatus;
-				cout << "out = -1" << endl;
+//				cout << "out = -1" << endl;
 				return -1; //return -1 when the clicker is pressed (prevStatus == currentStatus == true)
 			}
 		}
@@ -134,7 +134,7 @@ int Controller::waitForClickOrTimeout(){
 		else {
 			if (prevStatus){ 
 				prevStatus = currentStatus;
-				cout << "out = 2" << endl;
+//				cout << "out = 2" << endl;
 				return 2; //return 2 on falling edge (prevStatus && !currentStatus)
 			}
 		}
@@ -226,7 +226,7 @@ void Controller::focusNext(){
 		resetValues();
 	}
 	view.setCurrentBank(currentBank);
-	cout << "focusNext()" << endl; //for debugging purposes
+//	cout << "focusNext()" << endl; //for debugging purposes
 }
 
 //This method preselect a whole row or, if a row has been selected,
@@ -239,7 +239,7 @@ bool Controller::selectCurrent(){
 		updateValues();
 		view.updateView();
 		if ( (selectedRow >= 0) && (selectedColumn >=0) ) return true;
-		cout << "selectCurrent()" << endl;
+//		cout << "selectCurrent()" << endl;
 		return false;
 	}
 	

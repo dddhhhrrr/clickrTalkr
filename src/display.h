@@ -43,7 +43,10 @@ class Display{
 			suggestionOffset, //separation between each of the (up to four) suggestion words
 			suggestionX, //horizontal position where the first suggestion should be placed
 			suggestionY, //vertical position where the suggestions should be placed
-			percentage; //the remaining battery life expressed as a percentage
+			percentage, //the remaining battery life expressed as a percentage
+			defaultFontSize,
+			textEditorX,
+			textEditorY;
 			
 		double  batMax, //the maximum value of the battery's voltage, used to calculate the battery's percentage
 				batMin; //the minimum value of the battery's voltage, used to calculate the battery's percentage

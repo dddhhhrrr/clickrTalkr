@@ -4,7 +4,17 @@ using namespace std;
 
 Model::Model(){
 	phraseToSay = "";
+
+	setSuggestion(0, "prueba");
+	setSuggestion(1, "prueba1");
+	setSuggestion(2, "prueba2");
+	setSuggestion(3, "prueba3");
+
 	cout << "Model created!" <<endl;
+	cout << getSuggestion(0) << endl;
+	cout << getSuggestion(1) << endl;
+	cout << getSuggestion(2) << endl;
+	cout << getSuggestion(3) << endl;
 	}
 
 void Model::addLetterToAlphabet(string d, string v, string t){
@@ -67,7 +77,7 @@ void Model::updateCurrentWord(string l){
 		currentWord = currentWord.substr(0, currentWord.size()-1);
 	}
 	else clearCurrentWord();
-	cout << "\tcurrent word: " <<currentWord << endl;
+	cout << "current word: " <<currentWord << endl;
 }
 
 void Model::clearCurrentWord(){
@@ -76,6 +86,16 @@ void Model::clearCurrentWord(){
 
 void Model::clearPhraseToSay(){
 	phraseToSay= "";
+}
+
+void Model::setSuggestion(int index, char* str){
+	strcpy(&suggestion[index][0], str);
+}
+
+string Model::getSuggestion(int index){
+	string test;
+	strcpy(&test[0], &suggestion[index][0]);
+	return test;
 }
 
 Model::~Model(){

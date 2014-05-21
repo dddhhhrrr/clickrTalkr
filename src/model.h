@@ -8,12 +8,16 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <cstring>
+
 
 class Model{
 	private:
 		vector<Letter*> alphabet;
 		string currentWord,
 			   phraseToSay;
+		string suggestion[4];
+
 	public:
 		Model();
 		string getCurrentWord();
@@ -31,6 +35,8 @@ class Model{
 		void printLetters();
 		int getAlphabetSize();
 		Letter* getLetterAtIndex(int x);
+		void setSuggestion(int index, char* str);
+		string getSuggestion(int index);
 		~Model();
 };
 

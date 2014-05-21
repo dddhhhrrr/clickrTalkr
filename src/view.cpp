@@ -6,7 +6,7 @@ View::View(Model &m):model(m),display(m),talker("eSpeak"){
 
 int View::updateView(){
 	display.setPercentage(percentage);
-	cout << "selectedRow: " << selectedRow << ", selectedColumn: " << selectedColumn << "currentBank: " << currentBank << endl;
+//	cout << "selectedRow: " << selectedRow << ", selectedColumn: " << selectedColumn << "currentBank: " << currentBank << endl;
 	display.setSelectedRow(selectedRow);
 	display.setSelectedColumn(selectedColumn);
 	display.currentBank = currentBank;
