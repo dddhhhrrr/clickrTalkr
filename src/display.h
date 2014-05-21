@@ -46,7 +46,11 @@ class Display{
 			percentage, //the remaining battery life expressed as a percentage
 			defaultFontSize,
 			textEditorX,
-			textEditorY;
+			textEditorY,
+			textEditorX2,
+			textEditorY2,
+			suggestionInitialX,
+			suggestionInitialY;
 			
 		double  batMax, //the maximum value of the battery's voltage, used to calculate the battery's percentage
 				batMin; //the minimum value of the battery's voltage, used to calculate the battery's percentage

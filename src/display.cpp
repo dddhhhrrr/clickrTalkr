@@ -70,21 +70,20 @@ void Display::initialize(){
 	currentBank = 2;
 
 	buttonSize = buttonSizeX = buttonSizeY = height / 10;
-
 	buttonOffsetX = buttonSize + height / 25;
 	buttonOffsetY = buttonSize + height / 25;
-	
 	virtualKeyboardInitialX = height / 10;
 	virtualKeyboardInitialY = height / 10 + buttonOffsetY * (numberOfRows - 1);
-
 	menuItemSizeX = 9 * height / 40;
 	menuItemSizeY = height / 10;
 	menuItemPosX = virtualKeyboardInitialX + (buttonOffsetX * numberOfColumns) + (menuItemSizeX / 2) - buttonSizeX / 2;
 	selectorOffset = height / 50;
 	defaultFontSize = width / 50;
-	textEditorX = virtualKeyboardInitialX + (buttonOffsetX * numberOfColumns) + - buttonSizeX / 2 + menuItemSizeX;
-	
-	
+	textEditorX = virtualKeyboardInitialX + (buttonOffsetX * (numberOfColumns + 1)) - 3 * buttonSizeX / 2 + menuItemSizeX;
+	textEditorY = height / 10 - buttonSizeY/2;
+	textEditorX2 = width - textEditorX - (height/10) + (buttonSizeX/2);
+	textEditorY2 = height / 10 + buttonOffsetY * (numberOfRows - 1);
+	suggestionInitialX = 40;
 	HelveticaLight=loadfont(HelveticaLight_glyphPoints,
 	HelveticaLight_glyphPointIndices,
 	HelveticaLight_glyphInstructions,
@@ -103,7 +102,7 @@ void Display::drawActiveButton(int x, int y, int diameter, string t){
 	VGfloat radius = diameter/2;
 
 	int fontsize = defaultFontSize;
-	
+
 	if (t.length() > 1){
 		while ( (TextWidth(&t[0], HelveticaLight, fontsize)) > ((double)diameter*0.85)) fontsize--;
 	}
@@ -120,7 +119,7 @@ void Display::drawActiveButton(int x, int y, int diameter, string t){
 void Display::drawInactiveButton(int x, int y, int diameter, string t){
 	VGfloat radius = diameter/2;
 	int fontsize = defaultFontSize;
-
+	
 	if (t.length() > 1){
 		while ( (TextWidth(&t[0], HelveticaLight, fontsize)) > ((double)diameter*0.85)) fontsize--;
 	}
@@ -133,6 +132,8 @@ void Display::drawInactiveButton(int x, int y, int diameter, string t){
 	Fill(255,255,255,1);
 	TextMid(x, y-(fontsize/2), &t[0], HelveticaLight, fontsize);	
 }
+
+
 
 void Display::drawBattery(int lbcX, int lbcY, int p, string t){
 	int fullValue = (p/20)+1;	int emptyValue;
@@ -194,12 +195,14 @@ void Display::updateView(){
 	drawBackground();
 	drawBattery(1118, height - 25, percentage, "clicker");
 	drawBattery(1218, height - 25, 100 - percentage, "talker");
+	
 	drawSelector();
 	drawVirtualKeyboard();
 	
 	drawMenu();
 	drawEditor(40,height-180, 1200,140,model.getPhraseToSay());
 	drawTextEditor();
+	
 	drawSuggestions();
 	show();
 }
@@ -244,14 +247,19 @@ void Display::drawSelector(){
 
 void Display::drawSuggestions(){
 	int suggestionLength, suggestionOffset = 10, numberOfSuggestions = 4;
-	int fontsize = defaultFontSize;
-	string t = model.getCurrentWord();
+
 	suggestionLength = 1160 / numberOfSuggestions - suggestionOffset;
-	Fill(255,255,255,1);
-	Text(40, 600, &t[0], HelveticaLight, fontsize); 
+	for (int i = 0; i < numberOfSuggestions; i++){
+		drawActiveSuggestion(suggestionInitialX + (suggestionLength + suggestionOffset) * i, 590, "s");
+	}
 }
 
-void Display::drawActiveSuggestion(int x,int y, string t){}
+void Display::drawActiveSuggestion(int x,int y, string t){
+	int fontsize = 3 * defaultFontSize / 4;
+	t = model.getCurrentWord();
+	Fill(255,255,255,1);
+	Text(x, y, &t[0], HelveticaLight, fontsize); 
+}
 void Display::drawInactiveSuggestion(int x, int y, string t){}
 
 
@@ -279,7 +287,6 @@ void Display::drawVirtualKeyboard(){
 	
 void Display::drawActiveMenuItem(int x, int y, string t){
 	int fontsize = 3 * defaultFontSize / 4;
-	
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
 	Fill(255,255,255,1);
@@ -291,7 +298,6 @@ void Display::drawActiveMenuItem(int x, int y, string t){
 
 void Display::drawInactiveMenuItem(int x, int y, string t){
 	int fontsize = 3 * defaultFontSize / 4;
-	
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
 	Fill(255,255,255,.15);
@@ -336,7 +342,7 @@ void Display::drawBattery(double val){}
 void Display::drawTextEditor(){
 	Stroke(255,255,255,1);
 	Fill(255,255,255,.15);
-	Rect(940,35,300,520);
+	Rect(textEditorX, textEditorY, textEditorX2, textEditorY2);
 }
 
 
