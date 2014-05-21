@@ -221,6 +221,14 @@ void Display::drawSelector(){
 		FillLinearGradient(w2, height - 180, w2, height - 40, selectorGradient, 2);
 		Roundrect(40,height-180, 1200,140, 50, 50);
 	}
+	
+	else if (currentBank == 1){
+		if (selectedRow < 0){
+			Fill(255,0,0,1);
+			Rect(suggestionInitialX, 550, 1000, 600);
+		}
+	}
+	
 	else if (currentBank == 2){
 		if (selectedRow > -1){
 			FillLinearGradient(w2, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) - (double)buttonSizeY/2.0 - selectorOffset, w2, (virtualKeyboardInitialY - buttonOffsetY * selectedRow) + (double)buttonSizeY/2.0 + selectorOffset, selectorGradient, 2);

@@ -189,10 +189,18 @@ void Controller::resetValues(){
 //THIS IS STILL UNDER CONSTRUCTION	
 void Controller::focusNext(){
 	if (currentBank == 0) {
-		focusedRow = 0;
-		currentBank = 2;	
+		currentBank = 1;	
 	}
-	else if (currentBank == 1){ currentBank = 2;//if I'm in the suggestions selection bank
+	else if (currentBank == 1){ //if I'm in the suggestions selection bank
+		//if (selectedRow == -1){ //and nothing has been selected
+			focusedRow = 0;
+			currentBank = 2; //go to the virtual keyboard
+			
+		//}
+		//else {
+			//if (focusedColumn < (numberOfColumns - 1)) focusedColumn++;
+			//else focusedColumn = 0;
+		//}
 	}
 	
 	else if (currentBank == 2){ //if I'm in the virtual keyboard
