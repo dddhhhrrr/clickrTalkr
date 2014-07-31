@@ -79,11 +79,19 @@ void Display::initialize(){
 	menuItemPosX = virtualKeyboardInitialX + (buttonOffsetX * numberOfColumns) + (menuItemSizeX / 2) - buttonSizeX / 2;
 	selectorOffset = height / 50;
 	defaultFontSize = width / 50;
+	suggestionFontSize = defaultFontSize;
 	textEditorX = virtualKeyboardInitialX + (buttonOffsetX * (numberOfColumns + 1)) - 3 * buttonSizeX / 2 + menuItemSizeX;
 	textEditorY = height / 10 - buttonSizeY/2;
 	textEditorX2 = width - textEditorX - (height/10) + (buttonSizeX/2);
 	textEditorY2 = height / 10 + buttonOffsetY * (numberOfRows - 1);
+	editorX1 = height / 10 - buttonSizeX / 2;
+	editorY1 = height - (height / 10) * 2;
+	editorWidth = width - buttonSize;
+	editorLength = height - editorY1 - buttonSize/2;
 	suggestionInitialX = 40;
+	suggestionInitialY = virtualKeyboardInitialY + (buttonSizeY/2) + ((editorY1 - ( virtualKeyboardInitialY + (buttonSizeY/2)))/2) - suggestionFontSize/3;
+	batteryX = width - height / 5;
+	batteryY = height - height/32;
 	HelveticaLight=loadfont(HelveticaLight_glyphPoints,
 	HelveticaLight_glyphPointIndices,
 	HelveticaLight_glyphInstructions,
@@ -99,41 +107,38 @@ void Display::show(){
 }
 
 void Display::drawActiveButton(int x, int y, int diameter, string t){
+	//initialization
 	VGfloat radius = diameter/2;
-
 	int fontsize = defaultFontSize;
-
+	//checking if the text fit inside the button (the length of the text has to be smaller than .85 times the size of the button
 	if (t.length() > 1){
 		while ( (TextWidth(&t[0], HelveticaLight, fontsize)) > ((double)diameter*0.85)) fontsize--;
 	}
-	
+	//rendering of the button and the text
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
 	Fill(255,255,255,1);
 	Circle(x, y, diameter);
-	
 	Fill(0,0,0,1);
 	TextMid(x, y-(fontsize/2), &t[0], HelveticaLight, fontsize);
 }
 
 void Display::drawInactiveButton(int x, int y, int diameter, string t){
+	//initialization
 	VGfloat radius = diameter/2;
 	int fontsize = defaultFontSize;
-	
+	//checking if the text fit inside the button (the length of the text has to be smaller than .85 times the size of the button
 	if (t.length() > 1){
 		while ( (TextWidth(&t[0], HelveticaLight, fontsize)) > ((double)diameter*0.85)) fontsize--;
 	}
-	
+	//rendering of the button and the text
 	StrokeWidth(2);
 	Stroke(255,255,255,1);
 	Fill(255,255,255,0.15);
 	Circle(x, y, diameter);
-	
 	Fill(255,255,255,1);
 	TextMid(x, y-(fontsize/2), &t[0], HelveticaLight, fontsize);	
 }
-
-
 
 void Display::drawBattery(int lbcX, int lbcY, int p, string t){
 	int fullValue = (p/20)+1;	int emptyValue;
@@ -167,11 +172,10 @@ void Display::drawBattery(int lbcX, int lbcY, int p, string t){
 		0.0, 0.5, 0.5, 0.5, 1.0, //posicion, r,g, b ,a
 		1.0, 0.125, 0.125, 0.125, 1.0
 	};
-	
+
 	StrokeWidth(0);
 	if (fullValue > 0) Fill(255,255,255,1);
-	else Fill(255,0,0,1);
-	
+	else Fill(255,0,0,1);	
 	Rect(lbcX,lbcY,(barWidth*5)+4,barHeight + 4);
 	Rect(lbcX+(barWidth*5)+3,lbcY+3,3,6);
 	Fill(0,0,0,1);
@@ -193,14 +197,14 @@ void Display::drawBattery(int lbcX, int lbcY, int p, string t){
 
 void Display::updateView(){
 	drawBackground();
-	drawBattery(1118, height - 25, percentage, "clicker");
-	drawBattery(1218, height - 25, 100 - percentage, "talker");
+	drawBattery(batteryX, batteryY, percentage, "clicker");
+	drawBattery(batteryX + height/8, batteryY, 100 - percentage, "talker");
 	
 	drawSelector();
 	drawVirtualKeyboard();
 	
 	drawMenu();
-	drawEditor(40,height-180, 1200,140,model.getPhraseToSay());
+	drawEditor(editorX1, editorY1, editorWidth, editorLength,model.getPhraseToSay());
 	drawTextEditor();
 	
 	drawSuggestions();
@@ -218,14 +222,14 @@ void Display::drawSelector(){
 	StrokeWidth(0);
 
 	if (currentBank == 0){
-		FillLinearGradient(w2, height - 180, w2, height - 40, selectorGradient, 2);
-		Roundrect(40,height-180, 1200,140, 50, 50);
+		FillLinearGradient(w2, editorY1, w2, editorLength, selectorGradient, 2);
+		Roundrect(editorX1, editorY1, editorWidth, editorLength, 50, 50);
 	}
 	
 	else if (currentBank == 1){
 		if (selectedRow < 0){
-			Fill(255,0,0,1);
-			Rect(suggestionInitialX, 550, 1000, 600);
+			FillLinearGradient(w2, suggestionInitialY + (suggestionFontSize / 3) - (suggestionFontSize / 2) - selectorOffset, w2, suggestionInitialY + (suggestionFontSize / 3) - (suggestionFontSize / 2) - selectorOffset + suggestionFontSize + 2*selectorOffset, selectorGradient, 2);
+			Roundrect(suggestionInitialX - selectorOffset, suggestionInitialY + (suggestionFontSize / 3) - (suggestionFontSize / 2) - selectorOffset, editorWidth + 2*selectorOffset, suggestionFontSize + 2*selectorOffset, suggestionFontSize + 2*selectorOffset, suggestionFontSize + 2*selectorOffset);
 		}
 	}
 	
@@ -258,16 +262,17 @@ void Display::drawSuggestions(){
 
 	suggestionLength = 1160 / numberOfSuggestions - suggestionOffset;
 	for (int i = 0; i < numberOfSuggestions; i++){
-		drawActiveSuggestion(suggestionInitialX + (suggestionLength + suggestionOffset) * i, 590, "s");
+		drawActiveSuggestion(suggestionInitialX + (suggestionLength + suggestionOffset) * i, suggestionInitialY, model.getSuggestion(i));
+		printf("suggestion %d: %s\n", i, model.getSuggestion(i).c_str());
+		printf("%s\n", model.suggestion[i]);
 	}
 }
 
 void Display::drawActiveSuggestion(int x,int y, string t){
-	int fontsize = 3 * defaultFontSize / 4;
-	t = model.getCurrentWord();
 	Fill(255,255,255,1);
-	Text(x, y, &t[0], HelveticaLight, fontsize); 
+	Text(x, y, &t[0], HelveticaLight, suggestionFontSize); 
 }
+
 void Display::drawInactiveSuggestion(int x, int y, string t){}
 
 
@@ -327,7 +332,7 @@ void Display::drawMenu(){
 		else {
 			if (selectedRow == 0) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings"); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
 			if (selectedRow == 1) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File..."); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
-			if (selectedRow == 2) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File..."); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+			if (selectedRow == 2) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Save File..."); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
 			if (selectedRow == 3) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help"); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
 			if (selectedRow == 4) drawActiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit"); else drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
 		}
@@ -335,7 +340,7 @@ void Display::drawMenu(){
 	else {
 			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY, "Settings");
 			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY, "Open File...");
-			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Close File...");
+			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*2, "Save File...");
 			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*3, "Help");
 			drawInactiveMenuItem(menuItemPosX, virtualKeyboardInitialY-buttonOffsetY*4, "Exit");
 		}

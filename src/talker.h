@@ -16,7 +16,7 @@ class Talker{
 		
 	public:
 		Talker();
-		Talker(string s);
+		Talker(string s, string l);
 		~Talker();
 		
 		string getPrefix();

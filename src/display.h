@@ -49,6 +49,13 @@ class Display{
 			textEditorY,
 			textEditorX2,
 			textEditorY2,
+			batteryX,
+			batteryY,
+			editorX1,
+			editorY1,
+			editorLength,
+			editorWidth,
+			suggestionFontSize,
 			suggestionInitialX,
 			suggestionInitialY;
 			

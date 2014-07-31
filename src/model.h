@@ -4,6 +4,7 @@
 
 #include <vector>
 #include "letter.h"
+#include "suggestion.h"
 
 #include <string>
 #include <fstream>
@@ -12,11 +13,12 @@
 
 
 class Model{
-	private:
+	public:
 		vector<Letter*> alphabet;
+		vector<Suggestion*> suggestionList;
 		string currentWord,
 			   phraseToSay;
-		string suggestion[4];
+		char suggestion[4][64];
 
 	public:
 		Model();

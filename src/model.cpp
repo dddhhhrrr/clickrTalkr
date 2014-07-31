@@ -5,16 +5,21 @@ using namespace std;
 Model::Model(){
 	phraseToSay = "";
 
-	setSuggestion(0, "prueba");
-	setSuggestion(1, "prueba1");
-	setSuggestion(2, "prueba2");
-	setSuggestion(3, "prueba3");
+	setSuggestion(0, "test0");
+	setSuggestion(1, "test1");
+	setSuggestion(2, "test2");
+	setSuggestion(3, "test3");
+	//strcpy(suggestion[0], "test0");
+	//strcpy(suggestion[1], "test1");
+	//strcpy(suggestion[2], "test2");
+	//strcpy(suggestion[3], "test3");
 
 	cout << "Model created!" <<endl;
 	cout << getSuggestion(0) << endl;
 	cout << getSuggestion(1) << endl;
 	cout << getSuggestion(2) << endl;
 	cout << getSuggestion(3) << endl;
+	cout << suggestion[0]<<endl;
 	}
 
 void Model::addLetterToAlphabet(string d, string v, string t){
@@ -88,13 +93,13 @@ void Model::clearPhraseToSay(){
 	phraseToSay= "";
 }
 
-void Model::setSuggestion(int index, char* str){
-	strcpy(&suggestion[index][0], str);
+void Model::setSuggestion(int index, char str[]){
+	strcpy(suggestion[index], str);
 }
 
 string Model::getSuggestion(int index){
-	string test;
-	strcpy(&test[0], &suggestion[index][0]);
+	char test[32];
+	strcpy(test, suggestion[index]);
 	return test;
 }
 

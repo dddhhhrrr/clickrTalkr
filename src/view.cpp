@@ -1,6 +1,6 @@
 #include "view.h"
 
-View::View(Model &m):model(m),display(m),talker("eSpeak"){
+View::View(Model &m):model(m),display(m),talker("eSpeak", "spanish"){
 	cout << "View created!" << endl;
 }
 

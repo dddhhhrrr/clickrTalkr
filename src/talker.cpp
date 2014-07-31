@@ -6,10 +6,17 @@ Talker::Talker(){
 	
 }
 
-Talker::Talker(string s){
+Talker::Talker(string s, string l){
 	if (s == "eSpeak"){
-		setPrefix("espeak \"");
-		setSuffix("\"");
+		if (l == "spanish"){
+			setPrefix("espeak -ves-la+f5 \"");
+			setSuffix("\"");
+		}
+		
+		else {
+			setPrefix("espeak \"");
+			setSuffix("\"");
+		}
 	}
 }
 

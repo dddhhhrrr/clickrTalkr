@@ -161,7 +161,7 @@ void Controller::mainLoop(){
 					 switch(currentBank){
 						 case 0: {break;}
 						 case 1: {break;}//execute the action associated to that element of the GUI
-						 case 2: {buttons[(selectedRow * numberOfColumns) + selectedColumn]->execute(); break;}
+						 case 2: {buttons[(selectedRow * numberOfColumns) + selectedColumn]->execute(); currentBank = 0; break;}
 						 case 3: {break;}
 						 case 4: {break;}
 					 }
@@ -216,11 +216,13 @@ void Controller::focusNext(){
 	}
 	
 	else if (currentBank == 3){ //if I'm in the menu items selection bank
+	clicker.turnOnLED();  //  <---------------BORRAR CUANDO SE REPARE EL ERROR
 		if (selectedColumn == -1){ //and nothing has been selected
 		currentBank=0; //go to the virtual keyboard again
 		resetValues();
 		}
 		else {
+			if (focusedRow == numberOfRows - 1) clicker.turnOffLED(); //  <---------------BORRAR CUANDO SE REPARE EL ERROR
 			if (focusedRow < (numberOfRows - 1)) focusedRow++;
 			else focusedRow = 0;
 		}
